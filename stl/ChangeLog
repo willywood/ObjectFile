@@ -1,0 +1,39 @@
+The following changes were made since 3.2 release:
+
+	* Now, by default, STLPort renames std:: namespace for user
+	  if __STL_USE_OWN_NAMESPACE is used. To make it possible, many new
+	  wrapper headers introduced. Internally, STLport uses stlport:: namespace,
+	  so no link- or run- time clashes are possible, and you don't have to rebuild
+	  the runtime lib (which you don't want to).
+	  This feature makes STLport usable out-of-the box, without any modifications
+	  for client code, with any compiler.
+
+	* Code bloat reduction : hashtable<T> uses vector<void*> internally.
+
+	* Vector : efficiency/code bloat reduction fixes.
+
+	* Visual C++ : DLL export is supported for allocators and strings. To use it, 
+	  please define __STL_USE_DECLSPEC in all modules and __STL_DESIGNATED_DLL
+	  for the DLL which is supposed to instantiate STLport exports (at least one
+	  source of this DLL must include <string>.
+
+        * Visual C++ : for MT synchronization, <windows.h> is not included anymore.
+	
+	* For Sunpro C++ 5.0 : all headers are linked into stlport/SC5, so only
+	  one include path is needed. Note that SC5.0 has problems with relative 
+	  search path. It is easy to work around : in your makefiles, instead of
+	  "STL_INCL=../.." , write "STL_INCL=${PWD}/../..".
+
+	* Configuration files provided for compilers : 
+	   KAI C++
+	   DEC C++ (6.x, 5.x)
+	   Borland 5.02 is back on the road (finally !)
+	  
+	* Windows CE config provided for Visual C++.
+
+	* __STL_NO_IOSTREAMS switch introduced for embedded platforms.
+	
+	* Lots of minor config fixes and improvements for various platforms.
+
+
+	

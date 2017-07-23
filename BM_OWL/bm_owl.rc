@@ -1,0 +1,292 @@
+/*  Project ofileg
+    
+    Copyright © 1995. All Rights Reserved.
+
+    SUBSYSTEM:    ofileg.exe Application
+    FILE:         ofilgapp.rc
+    AUTHOR:       
+
+
+    OVERVIEW
+    ========
+    All resources defined here.      
+*/
+
+#if !defined(WORKSHOP_INVOKED)
+#include <windows.h>
+#endif
+#include "bm_owl.rh"
+
+SDI_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New", CM_FILENEW
+        MENUITEM "&Open...", CM_FILEOPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Save", CM_FILESAVE, GRAYED
+        MENUITEM "Save &As...", CM_FILESAVEAS, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4", CM_EXIT
+    END
+
+	MENUITEM SEPARATOR
+
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tAlt+BkSp", CM_EDITUNDO, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tShift+Del", CM_EDITCUT, GRAYED
+        MENUITEM "&Copy\tCtrl+Ins", CM_EDITCOPY, GRAYED
+        MENUITEM "&Paste\tShift+Ins", CM_EDITPASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Clear &All\tCtrl+Del", CM_EDITCLEAR, GRAYED
+        MENUITEM "&Delete\tDel", CM_EDITDELETE, GRAYED
+    END
+
+    POPUP "&Search"
+    BEGIN
+        MENUITEM "&Find...", CM_EDITFIND, GRAYED
+        MENUITEM "&Replace...", CM_EDITREPLACE, GRAYED
+        MENUITEM "&Next\aF3", CM_EDITFINDNEXT, GRAYED
+    END
+
+	MENUITEM SEPARATOR
+
+	MENUITEM SEPARATOR
+
+	MENUITEM SEPARATOR
+
+
+	MENUITEM SEPARATOR
+
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...", CM_HELPABOUT
+    END
+
+END
+
+
+// Accelerator table for short-cut to menu commands. (include\owl\editfile.rc)
+
+
+//
+// Table of help hints displayed in the status bar.
+//
+
+
+//
+// OWL string table
+//
+
+// EditFile (include\owl\editfile.rc and include\owl\editsear.rc)
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    IDS_CANNOTFIND,             "Cannot find ""%s""."
+    IDS_UNTITLED,               "Document"
+    IDS_UNABLEREAD,             "Unable to read file %s from disk."
+    IDS_UNABLEWRITE,            "Unable to write file %s to disk."
+    IDS_FILECHANGED,            "The text in the %s file has changed.\n\nDo you want to save the changes?"
+    IDS_FILEFILTER,             "Text files (*.TXT)|*.TXT|AllFiles (*.*)|*.*|"
+END
+
+
+// Exception string resources (include\owl\except.rc)
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    IDS_OWLEXCEPTION,           "ObjectWindows Exception"
+    IDS_UNHANDLEDXMSG,          "Unhandled Exception"
+    IDS_OKTORESUME,             "OK to resume?"
+    IDS_UNKNOWNEXCEPTION,       "Unknown exception"
+
+    IDS_UNKNOWNERROR,           "Unknown error"
+    IDS_NOAPP,                  "No application object"
+    IDS_OUTOFMEMORY,            "Out of memory"
+    IDS_INVALIDMODULE,          "Invalid module specified for window"
+    IDS_INVALIDMAINWINDOW,      "Invalid MainWindow"
+    IDS_VBXLIBRARYFAIL,         "VBX Library init failure"
+
+    IDS_INVALIDWINDOW,          "Invalid window %s"
+    IDS_INVALIDCHILDWINDOW,     "Invalid child window %s"
+    IDS_INVALIDCLIENTWINDOW,    "Invalid client window %s"
+
+    IDS_CLASSREGISTERFAIL,      "Class registration fail for window %s"
+    IDS_CHILDREGISTERFAIL,      "Child class registration fail for window %s"
+    IDS_WINDOWCREATEFAIL,       "Create fail for window %s"
+    IDS_WINDOWEXECUTEFAIL,      "Execute fail for window %s"
+    IDS_CHILDCREATEFAIL,        "Child create fail for window %s"
+
+    IDS_MENUFAILURE,            "Menu creation failure"
+    IDS_VALIDATORSYNTAX,        "Validator syntax error"
+    IDS_PRINTERERROR,           "Printer error"
+
+    IDS_LAYOUTINCOMPLETE,       "Incomplete layout constraints specified in window %s"
+    IDS_LAYOUTBADRELWIN,        "Invalid relative window specified in layout constraint in window %s"
+
+    IDS_GDIFAILURE,             "GDI failure"
+    IDS_GDIALLOCFAIL,           "GDI allocate failure"
+    IDS_GDICREATEFAIL,          "GDI creation failure"
+    IDS_GDIRESLOADFAIL,         "GDI resource load failure"
+    IDS_GDIFILEREADFAIL,        "GDI file read failure"
+    IDS_GDIDELETEFAIL,          "GDI object %X delete failure"
+    IDS_GDIDESTROYFAIL,         "GDI object %X destroy failure"
+    IDS_INVALIDDIBHANDLE,       "Invalid DIB handle %X"
+END
+
+
+// General Window's status bar messages. (include\owl\statusba.rc)
+STRINGTABLE
+BEGIN
+    IDS_MODES                   "EXT|CAPS|NUM|SCRL|OVR|REC"
+    IDS_MODESOFF                "   |    |   |    |   |   "
+    SC_SIZE,                    "Changes the size of the window"
+    SC_MOVE,                    "Moves the window to another position"
+    SC_MINIMIZE,                "Reduces the window to an icon"
+    SC_MAXIMIZE,                "Enlarges the window to it maximum size"
+    SC_RESTORE,                 "Restores the window to its previous size"
+    SC_CLOSE,                   "Closes the window"
+    SC_TASKLIST,                "Opens task list"
+    SC_NEXTWINDOW,              "Switches to next window"
+END
+
+
+// Validator messages (include\owl\validate.rc)
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    IDS_VALPXPCONFORM          "Input does not conform to picture:\n""%s"""
+    IDS_VALINVALIDCHAR         "Invalid character in input"
+    IDS_VALNOTINRANGE          "Value is not in the range %ld to %ld."
+    IDS_VALNOTINLIST           "Input is not in valid-list"
+END
+
+
+//
+// Misc application definitions
+//
+
+// Application ICON
+//IDI_SDIAPPLICATION ICON "applsdi.ico"
+
+
+// Client Dialog
+IDD_CLIENT DIALOG 102, 55, 250, 169
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Object File Benchmark"
+FONT 8, "MS Sans Serif"
+{
+ DEFPUSHBUTTON "START", IDSTART, 175, 129, 50, 14
+ EDITTEXT IDC_NCLASSES, 74, 5, 38, 13
+ EDITTEXT IDC_AVSIZE, 195, 27, 38, 13
+ EDITTEXT IDC_NOBJECTS, 75, 27, 38, 13
+ LTEXT "", IDINSERT, 48, 59, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDACCESS, 48, 72, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDSAVE, 48, 85, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDLOAD, 48, 98, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDERASE, 48, 111, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDINSERTT, 99, 59, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDACCESST, 99, 72, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDSAVET, 99, 85, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDLOADT, 99, 98, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDERASET, 99, 111, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDALL, 48, 131, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "", IDALLT, 99, 131, 29, 10, WS_BORDER | WS_GROUP
+ LTEXT "Number of Classes", -1, 10, 8, 60, 8
+ LTEXT "Number of Objects", -1, 10, 30, 60, 8
+ LTEXT "Average Size", -1, 140, 29, 50, 8
+ LTEXT "Total(secs)", -1, 101, 47, 42, 8
+ LTEXT "Per Object(ms)", -1, 47, 47, 51, 8
+ LTEXT "Attach", -1, 8, 60, 29, 8
+ LTEXT "Access", -1, 8, 72, 29, 8
+ LTEXT "Save", -1, 8, 86, 29, 8
+ LTEXT "Load", -1, 8, 99, 29, 8
+ LTEXT "Detach", -1, 8, 114, 29, 8
+ LTEXT "Total", -1, 8, 131, 29, 8
+ CONTROL "", -1, "static", SS_BLACKFRAME | WS_CHILD | WS_VISIBLE, 40, 125, 94, 2
+}
+
+
+// About box.
+
+
+// TInputDialog class dialog box.
+
+
+// Horizontal slider thumb bitmap for TSlider and VSlider (include\owl\slider.rc)
+
+
+// Vertical slider thumb bitmap for TSlider and HSlider (include\owl\slider.rc)
+
+
+// Version info.
+//
+#if !defined(__DEBUG_)
+// Non-Debug VERSIONINFO
+1 VERSIONINFO LOADONCALL MOVEABLE 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEFLAGSMASK 0
+FILEFLAGS VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS16
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        // Language type = U.S. English (0x0409) and Character Set = Windows, Multilingual(0x04e4)
+        BLOCK "040904E4"                            // Matches VarFileInfo Translation hex value.
+        BEGIN
+            VALUE "CompanyName", "\000"
+            VALUE "FileDescription", "ofileg for Windows\000"
+            VALUE "FileVersion", "1.0\000"
+            VALUE "InternalName", "ofileg\000"
+            VALUE "LegalCopyright", "Copyright © 1995. All Rights Reserved.\000"
+            VALUE "LegalTrademarks", "Windows (TM) is a trademark of Microsoft Corporation\000"
+            VALUE "OriginalFilename", "ofileg.EXE\000"
+            VALUE "ProductName", "ofileg\000"
+            VALUE "ProductVersion", "1.0\000"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 0x04e4        // U.S. English(0x0409) & Windows Multilingual(0x04e4) 1252
+    END
+
+END
+#else
+
+// Debug VERSIONINFO
+1 VERSIONINFO LOADONCALL MOVEABLE 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEFLAGSMASK VS_FF_DEBUG | VS_FF_PRERELEASE | VS_FF_PATCHED | VS_FF_PRIVATEBUILD | VS_FF_SPECIALBUILD
+FILEFLAGS VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS16
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        // Language type = U.S. English (0x0409) and Character Set = Windows, Multilingual(0x04e4)
+        BLOCK "040904E4"                            // Matches VarFileInfo Translation hex value.
+        BEGIN
+            VALUE "CompanyName", "\000"
+            VALUE "FileDescription", "ofileg for Windows\000"
+            VALUE "FileVersion", "1.0\000"
+            VALUE "InternalName", "ofileg\000"
+            VALUE "LegalCopyright", "Copyright © 1995. All Rights Reserved.\000"
+            VALUE "LegalTrademarks", "Windows (TM) is a trademark of Microsoft Corporation\000"
+            VALUE "OriginalFilename", "ofileg.EXE\000"
+            VALUE "ProductName", "ofileg\000"
+            VALUE "ProductVersion", "1.0\000"
+            VALUE "SpecialBuild", "Debug Version\000"
+            VALUE "PrivateBuild", "Built by \000"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 0x04e4        // U.S. English(0x0409) & Windows Multilingual(0x04e4) 1252
+    END
+
+END
+#endif

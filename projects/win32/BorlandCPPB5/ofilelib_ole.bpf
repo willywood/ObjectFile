@@ -1,0 +1,19 @@
+USEUNIT("..\..\..\ofile\oblob.cpp");
+USEUNIT("..\..\..\ofile\oblobp.cpp");
+USEUNIT("..\..\..\ofile\obuf.cpp");
+USEUNIT("..\..\..\ofile\oconvert.cpp");
+USEUNIT("..\..\..\ofile\ofile.cpp");
+USEUNIT("..\..\..\ofile\ofile2.cpp");
+USEUNIT("..\..\..\ofile\oflist.cpp");
+USEUNIT("..\..\..\ofile\oio.cpp");
+USEUNIT("..\..\..\ofile\oistrm.cpp");
+USEUNIT("..\..\..\ofile\oiter.cpp");
+USEUNIT("..\..\..\ofile\ometa.cpp");
+USEUNIT("..\..\..\ofile\oosxml.cpp");
+USEUNIT("..\..\..\ofile\opersist.cpp");
+USEUNIT("..\..\..\ofile\ostrm.cpp");
+USEUNIT("..\..\..\ofile\oufile.cpp");
+USEUNIT("..\..\..\ofile\ox.cpp");
+USEFILE("vctobpr.log");
+
+#define Library

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="Debug\settest.exe"/>
+    <OBJFILES value="Debug\myblob.obj Debug\myclass.obj Debug\settest.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="Debug\ofilelib.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
+      ibsmp50.bpi vcldbx50.bpi TeeUI50.bpi TeeDB50.bpi Tee50.bpi TeeQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi NMFast50.bpi 
+      dclocx50.bpi bcb2kaxserver50.bpi"/>
+    <PATHCPP value=".;..\..\..\test"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_LIB;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_LIB;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;OF_OLE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;OF_OLE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE"/>
+    <SYSDEFINES value="_NO_VCL;_ASSERTE;NO_STRICT"/>
+    <MAINSOURCE value="settest.bpf"/>
+    <INCLUDEPATH value="..\..\..\test;..\..\..\ofile;$(BCB)\include;$(BCB)\include\mfc;$(BCB)\include\atl"/>
+    <LIBPATH value="..\..\..\test;$(BCB)\lib;$(DEBUGLIBPATH);$(BCB)\lib\psdk"/>
+    <WARNINGS value="-w-8026 -w-8027 -w-par"/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\include"/>
+    <CFLAG1 value="-O2 -w -X -a8 -5 -b -k -v -vi -q -I../../../test -c"/>
+    <PFLAGS value="-N2Debug -N0Debug -$YD"/>
+    <RFLAGS value="/l 0x409 /d &quot;_DEBUG&quot; /i$(BCB)\include;$(BCB)\include\mfc"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-IDebug -D&quot;&quot; -ap -Tpe -x -Gn -v -q"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=3
+Item0=..\..\..\test;..\..\..\ofile;$(BCB)\include;$(BCB)\include\mfc;$(BCB)\include\atl
+Item1=..\..\..\test;$(BCB)\include;$(BCB)\include\mfc;$(BCB)\include\atl
+Item2=..\..\..\test;$(BCB)\include;$(BCB)\include\mfc;$(BCB)\include\atl;
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=..\..\..\test;$(BCB)\lib;$(DEBUGLIBPATH);$(BCB)\lib\psdk
+Item1=..\..\..\test;$(BCB)\lib;$(DEBUGLIBPATH);;$(BCB)\lib\psdk;$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);$(DEBUGLIBPATH);
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_LIB;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;_LIB;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;OF_OLE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE;OF_OLE;_CONSOLE;WIN32;_DEBUG;_MBCS;OFILE_STD_IN_NAMESPACE
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=Debug
+
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=Debug\
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

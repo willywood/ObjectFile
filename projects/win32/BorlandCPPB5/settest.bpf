@@ -1,0 +1,6 @@
+USEUNIT("..\..\..\test\myblob.cpp");
+USEUNIT("..\..\..\test\myclass.cpp");
+USEUNIT("..\..\..\test\settest.cpp");
+USELIB("Debug\ofilelib.lib");
+//---------------------------------------------------------------------------
+#define WinMain

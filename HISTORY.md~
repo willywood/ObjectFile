@@ -1,0 +1,90 @@
+ObjectFile Changes
+
+Functional changes to ObjectFile are described.
+
+========================== ObjectFile 4. 10 ============================
+1. Linux support. Includes project Linux 
+
+========================== ObjectFile 4. 00 ============================
+1. Android support. Includes project from ndk build. 
+
+========================== ObjectFile 2. 02 ============================
+
+1.Borland CPP Builder 5.0  project is supplied. projects/win32/BorlandCPP5/ofile.bpg
+2. XML output stream throws exceptions on failure to write.
+
+========================== ObjectFile 2. 01 ============================
+
+1.MSVC 6.0 project is supplied. projects/win32/msvc/ofile.dsw
+
+========================== ObjectFile 2. 00 ============================
+
+1. Support for files greater than 4Mb on platforms that support files of this size. Tested on Windows 2000. This is configurable via a define since it has file portability implications.
+2. Support for storing 64-bit longs.
+3. XML output stream improved. Offers more control over output style.
+
+========================== ObjectFile 1.92 =============================
+
+1. Overhaul of OIStream and blob read methods, in preparation for
+XML reader (planned for version 2.0). It should now be possible to handle
+reading of Blobs from a user derived class of OIStream. 
+2. Some fixes to oset.h and odset.h due to reported compilation problem
+on HP ANSI C++ B3910B A.01.23.
+
+========================== ObjectFile 1.91 =============================
+
+1. Even more namespace cleanup.
+2. Define OFILE_STD_IN_NAMESPACE in odefs.h to use STL that is defined
+in the std:: namespace. Also uses stl header file names without extension.
+3. Maximum file size exceeded situation checked for. cOFileMaxLength in
+odefs.h defines this to 2GB. It can be 4GB on Win32.
+4. OClassId_t changed from unsigned int to unsigned short.
+5. Manual has been edited. It is worth reprinting. State of file after 
+failed commit is more clearly defined.
+
+========================== ObjectFile 1.9 ==============================
+
+1. Namespace cleanup. ClassId should be changed to OClassId_t. odefs.h
+still defines ClassId for backward compatibility. You can remove this
+if ClassId is already in use in your environment.
+2. OUFile adds a function makeWritable(). It is documented in the manual.
+
+========================== ObjectFile 1.81 ==============================
+
+1. OFile::reset() method added.
+2. egcs (Linux) compilation fixes.
+3. All file names are lowercase for easier UNIX.
+4. Tested with Red-Hat Linux egcs g++
+
+========================== ObjectFile 1.8 ==============================
+
+1. A few minor bug fixes.
+2. Wide character functions added to streams.
+3. OOPrintStream removed (oprstrm.cpp/.h).
+4. OOStreamXML added (oosxml.cpp/.h)
+5. oPrint virtual method removed from OPersist. Better to use streams
+or let the user add his own print method.
+6. Tested with  C++ Builder 4.0
+
+========================== ObjectFile 1.7 ==============================
+
+ObjectFile 1.70 (25 December 1997)
+1. Many bug fixes resulting from use in a major project.
+2. retainIdentity feature.
+3. OUFile::save() does rename if possible to avoid a copy.
+4. commit() compress parameter now obsolete.
+
+ObjectFile 1.71 (11 June 1998)
+1. OIStream::readBits() portability fixed.
+
+========================== ObjectFile 1.6 ==============================
+
+ObjectFile 1.60 (22 July 1997)
+1. OblobP: removed compression. Better left to subclass.
+2. OblobT: copyToBlob method added.
+3. STL Library replaced by more up to date SGI Portable version.
+4. Tested and works on Visual C++ 5.0.
+
+ObjectFile 1.61 (4 August 1997)
+1. Magic Number.
+2. Database portabilty fixes.

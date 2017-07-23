@@ -1,0 +1,5 @@
+USEUNIT("..\..\..\test\odrel.cpp");
+USEUNIT("..\..\..\test\odrelm.cpp");
+USELIB("Debug\ofilelib.lib");
+//---------------------------------------------------------------------------
+#define WinMain

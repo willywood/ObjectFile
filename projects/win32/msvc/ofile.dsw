@@ -1,0 +1,221 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "address"=.\address.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "bm"=.\bm.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "bm_db"=.\bm_db.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "evolve"=.\evolve.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "evolve2"=.\evolve2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "evolve3"=.\evolve3.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "odrel"=.\odrel.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "odsettst"=.\odsettst.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ofile"=.\ofile.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ofile2"=.\ofile2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ofilelib"=.\ofilelib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ofilelib_ole"=.\ofilelib_ole.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ole"=.\ole.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib_ole
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "settest"=.\settest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ofilelib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

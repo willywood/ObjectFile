@@ -1,0 +1,5 @@
+USEUNIT("..\..\..\test\evmain3.cpp");
+USEUNIT("..\..\..\test\evper3.cpp");
+USELIB("Debug\ofilelib.lib");
+//---------------------------------------------------------------------------
+#define WinMain

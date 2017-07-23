@@ -1,0 +1,6 @@
+USEUNIT("..\..\..\test\olemain.cpp");
+USEUNIT("..\..\..\test\person.cpp");
+USEUNIT("..\..\..\test\trans.cpp");
+USELIB("Debug\ofilelib_ole.lib");
+//---------------------------------------------------------------------------
+#define WinMain

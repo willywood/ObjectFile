@@ -1,0 +1,5 @@
+USEUNIT("..\..\..\test\address.cpp");
+USEUNIT("..\..\..\test\person.cpp");
+USELIB("Debug\ofilelib.lib");
+//---------------------------------------------------------------------------
+#define WinMain

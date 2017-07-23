@@ -1,33 +1,18 @@
-# ObjectFile
-Persistence for C++ objects
+//
+// A small address database to demonstrate basic use of ObjectFile.
+//
 
-# Introduction
-ObjectFile was developed in order to satisfy the need for object persistence within application programs. This need is often far removed from that of a full blown OODBMS system. For many applications a full OODBMS would be a burden, both to application performance and to the development process. 
-ObjectFile is designed to be just another set of classes in your application. It has no pre-compiler and no binaries to link with. This makes it easy to integrate into your development environment.
-
-
-# Getting started - Linux
-To build the examples on Linux:
-cd ofile/projects/Linux
-make
-
-This will produce executable .out files for the examples.
-Note: The compiler stl is used and not the provided code.
-
-# Example Program
-We will jump in at the deep end, by looking at an example program that uses ObjectFile. Do not worry if there is anything you do not understand. It will become clear after reading the rest of the manual. 
-The program is a simple address database. It allows you to add, delete and list the addresses. It uses the Person class, which follows.
-The ObjectFile related code is printed in bold text.
- 
- ~~~~
 #include "odefs.h"
-#include <cstring.h>
-#include <fstream.h>
+#include "ofstring.h"
+#include <fstream>
 #include "oufile.h"
 #include "ox.h"
 #include "person.h"
 
-main(){
+
+using namespace std;
+
+int main(){
 
 	try
 	{
@@ -53,10 +38,10 @@ main(){
 		{
 		case '1' :  // Add
 			{
-				string firstName,surname,address,district,city,country;
+				ofile_string firstName,surname,address,district,city,country;
 				OId spouseId = 0;
                 
-               cin.getline(buf,256);
+				cin.getline(buf,256);
 				cout << "First name ? ",cin.getline(buf,256),firstName = buf;
 				cout << "Surname ? ",cin.getline(buf,256), surname = buf;
 				cout << "Address ? ",cin.getline(buf,256), address = buf;
@@ -84,7 +69,7 @@ main(){
 				if(spouse)
 					spouse->setSpouse(p);
 
-				// Commit unwritten objects. This means data can never be lost.
+				// Commit unwritten records
 				addressDB->commit();
 			}
 			break;
@@ -97,7 +82,7 @@ main(){
 				Person *p = (Person *)addressDB->getObject(id,cPerson);
 				if(p)
 				{
-					// Detach the object
+					// Detach the record
 					addressDB->detach(p);
 
 					// Make sure the spouse does not point to a deleted person.
@@ -118,7 +103,7 @@ main(){
 				Person *p;
 
 				// Iterate over all Person objects.
-				while(p = it++)
+				while((p = it++))
 				{
 					// Print ascii representation of the object.
 					p->oPrint(cout);
@@ -127,7 +112,7 @@ main(){
 			break;
 		case '4' :  // Exit
 
-			// Commit unwritten objects
+			// Commit unwritten records
 			addressDB->commit();
 			// Save file.
 			addressDB->save();
@@ -150,7 +135,5 @@ main(){
 		cout << x.why() <<'\n';
 		return 0;
 	}
-			 
+	return 0;		 
 }
-~~~~
- 

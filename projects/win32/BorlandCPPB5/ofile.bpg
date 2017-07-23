@@ -1,0 +1,76 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe
+BPRTOMAK = $(ROOT)\bin\bprtomak.exe
+DCC = $(ROOT)\bin\dcc32.exe
+BRCC = $(ROOT)\bin\brcc32.exe
+#------------------------------------------------------------------------------
+PROJECTS = ofilelib.dsp address.dsp bm.dsp bm_db.dsp evolve.dsp evolve2.dsp \
+  evolve3.dsp odrel.dsp odsettst.dsp ofile.dsp ofile2.dsp settest.dsp \
+  ofilelib_ole.dsp ole.dsp
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+address.dsp: address.bpr
+   $(BPRTOMAK) address.bpr
+   $(MAKE) -$(MAKEFLAGS) -faddress.mak
+
+bm.dsp: bm.bpr
+   $(BPRTOMAK) bm.bpr
+   $(MAKE) -$(MAKEFLAGS) -fbm.mak
+
+bm_db.dsp: bm_db.bpr
+   $(BPRTOMAK) bm_db.bpr
+   $(MAKE) -$(MAKEFLAGS) -fbm_db.mak
+
+evolve.dsp: evolve.bpr
+   $(BPRTOMAK) evolve.bpr
+   $(MAKE) -$(MAKEFLAGS) -fevolve.mak
+
+evolve2.dsp: evolve2.bpr
+   $(BPRTOMAK) evolve2.bpr
+   $(MAKE) -$(MAKEFLAGS) -fevolve2.mak
+
+evolve3.dsp: evolve3.bpr
+   $(BPRTOMAK) evolve3.bpr
+   $(MAKE) -$(MAKEFLAGS) -fevolve3.mak
+
+odrel.dsp: odrel.bpr
+   $(BPRTOMAK) odrel.bpr
+   $(MAKE) -$(MAKEFLAGS) -fodrel.mak
+
+odsettst.dsp: odsettst.bpr
+   $(BPRTOMAK) odsettst.bpr
+   $(MAKE) -$(MAKEFLAGS) -fodsettst.mak
+
+ofile.dsp: ofile.bpr
+   $(BPRTOMAK) ofile.bpr
+   $(MAKE) -$(MAKEFLAGS) -fofile.mak
+
+ofile2.dsp: ofile2.bpr
+   $(BPRTOMAK) ofile2.bpr
+   $(MAKE) -$(MAKEFLAGS) -fofile2.mak
+
+ofilelib.dsp: ofilelib.bpr
+   $(BPRTOMAK) ofilelib.bpr
+   $(MAKE) -$(MAKEFLAGS) -fofilelib.mak
+
+ofilelib_ole.dsp: ofilelib_ole.bpr
+   $(BPRTOMAK) ofilelib_ole.bpr
+   $(MAKE) -$(MAKEFLAGS) -fofilelib_ole.mak
+
+ole.dsp: ole.bpr
+   $(BPRTOMAK) ole.bpr
+   $(MAKE) -$(MAKEFLAGS) -fole.mak
+
+settest.dsp: settest.bpr
+   $(BPRTOMAK) settest.bpr
+   $(MAKE) -$(MAKEFLAGS) -fsettest.mak
+
+
