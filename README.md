@@ -5,11 +5,15 @@ Persistence for C++ objects
 ObjectFile was developed in order to satisfy the need for object persistence within application programs. This need is often far removed from that of a full blown OODBMS system. For many applications a full OODBMS would be a burden, both to application performance and to the development process. 
 ObjectFile is designed to be just another set of classes in your application. It has no pre-compiler and no binaries to link with. This makes it easy to integrate into your development environment.
 
+Full documentation is in OFILEMAN.pdf
+
 
 # Getting started - Linux
 To build the examples on Linux:
-cd ofile/projects/Linux
-make
+
+**cd ofile/projects/Linux**
+
+**make**
 
 This will produce executable .out files for the examples.
 Note: The compiler stl is used and not the provided code.
