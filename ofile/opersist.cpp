@@ -1,8 +1,26 @@
-//======================================================================
-// 	This software may only be compiled in conjunction with a licence
-// agreement with ObjectFile Limited.
-// Copyright(c) 1996-99 ObjectFile Ltd. 
-//======================================================================
+/*=============================================================================
+MIT License
+
+Copyright(c) 2019 willywood
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+=============================================================================*/
 //
 // OPersist is the class from which all persistant objects must be
 // derived. It does not contain any persistant data itself, but defines
@@ -102,7 +120,7 @@ OPersist::OPersist(void):_oId(0)
 #endif
 }
 
-OPersist::OPersist(const OPersist &)
+OPersist::OPersist(const OPersist &):_oId(0)
 // Copy constructor
 {
 	// New object that is not in the file must be dirty.

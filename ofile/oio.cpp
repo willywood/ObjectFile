@@ -1,8 +1,26 @@
-//======================================================================
-// 	This software may only be compiled in conjunction with a licence
-// agreement with ObjectFile Limited.
-// Copyright(c) 2000 ObjectFile Ltd. 
-//======================================================================
+/*=============================================================================
+MIT License
+
+Copyright(c) 2019 willywood
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+=============================================================================*/
 
 // oio.h defines an interface for io in ObjectFile. It is not suprisingly
 // similar to the interface defined by the standard io library of 'C', and
@@ -176,6 +194,57 @@ void oi_lastError(char *messageBuffer,int maxSize)
 				  0);            // Format buffer
 }	
 
+char *oi_tmpnam(char *nameBuf,unsigned int maxSize)
+// Return a pointer to a temporary file name or NULL on failure.
+// If nameBuf is NULL a character array is created and returned. It must be deleted by the caller.
+// Otherwise nameBuf is filled and a pointer to that is returned. nameBuf must be able to hold maxSize - 1 characters.
+{
+   TCHAR szTempFileName[MAX_PATH];  
+   TCHAR lpTempPathBuffer[MAX_PATH];   
+   DWORD dwRetVal;
+   UINT uRetVal   = 0;
+
+   //  Gets the temp path env string (no guarantee it's a valid path).
+   dwRetVal = GetTempPath(MAX_PATH,     // length of the buffer
+                     lpTempPathBuffer); // buffer for path 
+   if (dwRetVal > MAX_PATH || (dwRetVal == 0))
+   {
+      return NULL;
+   }
+
+   //  Generates a temporary file name. 
+   uRetVal = GetTempFileName(lpTempPathBuffer, // directory for tmp files
+                        TEXT("DEMO"),     // temp file name prefix 
+                        0,                // create unique name 
+                        szTempFileName);  // buffer for name 
+   if (uRetVal == 0)
+   {
+      return NULL;
+   }
+   char *result;
+
+   if(!nameBuf)
+   {
+      // Create a buffer
+	   result = new char[strlen(szTempFileName) + 1];
+	   strcpy(result,szTempFileName);
+      return result;
+   }
+   else
+   {
+      // Check if the name will fit in the buffer.
+      if(strlen(szTempFileName) < maxSize)
+      {
+ 	      strcpy(nameBuf,szTempFileName);
+         return nameBuf;
+      }
+      else
+      {
+         return NULL;
+      }
+   }
+}
+
 // End of WIN32
 
 
@@ -265,6 +334,37 @@ void oi_lastError(char *messageBuffer,int maxSize)
 	if(error)
 		strncpy(messageBuffer,error,maxSize -1);
 }
+char *oi_tmpnam(char *nameBuf,unsigned int maxSize)
+// Return a pointer to a temporary file name or NULL on failure.
+// If nameBuf is NULL a character array is created and returned. It must be deleted by the caller.
+// Otherwise nameBuf is filled and a pointer to that is returned. nameBuf must be able to hold maxSize - 1 characters.
+{
+   // Invent a name.
+   char *name = tmpnam(NULL);
+   char *result;
+
+   if(!nameBuf)
+   {
+      // Create a buffer
+	   result = new char[strlen(name) + 1];
+	   strcpy(result,name);
+      return result;
+   }
+   else
+   {
+      // Check if the name will fit in the buffer.
+      if(strlen(name) < maxSize)
+      {
+ 	      strcpy(nameBuf,name);
+         return nameBuf;
+      }
+      else
+      {
+         return NULL;
+      }
+   }
+}
+
 
 #else  // End of Borland io
 
@@ -359,6 +459,37 @@ void oi_lastError(char *messageBuffer,int maxSize)
 	char *error = strerror(errno);
 	if(error)
 		strncpy(messageBuffer,error,maxSize -1);
+}
+
+char *oi_tmpnam(char *nameBuf,unsigned int maxSize)
+// Return a pointer to a temporary file name or NULL on failure.
+// If nameBuf is NULL a character array is created and returned. It must be deleted by the caller.
+// Otherwise nameBuf is filled and a pointer to that is returned. nameBuf must be able to hold maxSize - 1 characters.
+{
+   // Invent a name.
+   char *name = tmpnam(NULL);
+   char *result;
+
+   if(!nameBuf)
+   {
+      // Create a buffer
+	   result = new char[strlen(name) + 1];
+	   strcpy(result,name);
+      return result;
+   }
+   else
+   {
+      // Check if the name will fit in the buffer.
+      if(strlen(name) < maxSize)
+      {
+ 	      strcpy(nameBuf,name);
+         return nameBuf;
+      }
+      else
+      {
+         return NULL;
+      }
+   }
 }
 
 #endif  // End of standard io
@@ -591,6 +722,14 @@ void o_lastError(char *messageBuffer,int maxSize)
 {
 	oi_lastError(messageBuffer,maxSize);
 }	
+
+char *o_tmpnam(char *nameBuf,unsigned int maxSize)
+// Return a pointer to a temporary file name or NULL on failure.
+// If nameBuf is NULL a character array is created and returned. It must be deleted by the caller.
+// Otherwise nameBuf is filled and a pointer to that is returned. nameBuf must be able to hold maxSize - 1 characters.
+{
+   return oi_tmpnam(nameBuf,maxSize);
+}
 
 #endif // OF_OLE
 

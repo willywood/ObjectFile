@@ -7,6 +7,18 @@ ObjectFile is designed to be just another set of classes in your application. It
 
 Full documentation is in OFILEMAN.pdf
 
+Key features are:
+  * Very fast. It beats the CrystalDiskMark Random disk benchmark on a i7 laptop with SATA III ssd.
+  * Full source code for easy porting and debugging.
+  * Database versioning supported.
+  * Byte order conversion supported for cross-platform support.
+  * Memory efficient.
+  * Objects can be in or out of memory.
+  * BLOB support.
+  * XML object and full database representation can be generated.
+  * Proven in a large desktop application.
+  * Open source and free to use.
+
 
 # Getting started - Linux
 To build the examples on Linux:

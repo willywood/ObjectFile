@@ -1,8 +1,26 @@
-//======================================================================
-// 	This software may only be compiled in conjunction with a licence
-// agreement with ObjectFile Limited.
-// Copyright(c) 1996-99 ObjectFile Ltd. 
-//======================================================================
+/*=============================================================================
+MIT License
+
+Copyright(c) 2019 willywood
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+=============================================================================*/
 
 // ObjectFile recognises that file management is an application dependant
 // activity. For this reason it implements one of many possible
@@ -55,9 +73,6 @@
 //
 
 #include "odefs.h"
-#include <iostream>
-#include <string.h>
-#include <limits.h>
 #include "oufile.h"
 #include "oiter.h"
 #include "ox.h"
@@ -65,7 +80,7 @@
 
 OUFile::WorkFile OUFile::_sWorkFile;
 
-void OUFile::fileCopy(const char *file1,const char *file2,unsigned long length)
+void OUFile::fileCopy(const char *file1,const char *file2,OFilePos_t length)
 // Copy file1 to file2.Overwrite file2.	file2 is truncated to length bytes.
 // Parameters: file1 - file to copy from.
 //             file2 - file to copy to.
@@ -94,12 +109,12 @@ O_fd fd1,fd2;
 	const size_t cBUFS = 64000;
 	char *buf = new char[cBUFS];
 	size_t n;
-	unsigned long bytesToWrite = length;
+	OFilePos_t bytesToWrite = length;
 
 	// Copy a maximimum of length bytes from fd1 to fd2.
 	while((n = o_fread(buf,1,cBUFS,fd1)) > 0)
 	{
-		unsigned long w = min(bytesToWrite,(unsigned long)n);
+		unsigned long w = (unsigned long)min(bytesToWrite,n);
 		if(o_fwrite(buf,1,w,fd2) != w)
 		{
 
@@ -475,11 +490,16 @@ void OUFile::WorkFile::create(const char *name)
 {
 	cleanup();
 	if(!name)
+	{
 		// Invent a name.
-		name = tmpnam(NULL);
-
-	_name = new char[strlen(name) + 1];
-	strcpy(_name,name);
+		_name = o_tmpnam(NULL,0);
+	}
+	else
+	{
+		// Use the given name
+	   _name = new char[strlen(name) + 1];
+		strcpy(_name,name);
+	}
 }
 
 OUFile::WorkFile::WorkFile(WorkFile &w)

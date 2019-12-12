@@ -1,8 +1,26 @@
-//======================================================================
-// 	This software may only be compiled in conjunction with a licence
-// agreement with ObjectFile Limited.
-// Copyright(c) 1996-99 ObjectFile Ltd. 
-//======================================================================
+/*=============================================================================
+MIT License
+
+Copyright(c) 2019 willywood
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+=============================================================================*/
 /*
 	OOStreamFile is the output stream for writing objects to a file.
 
@@ -295,18 +313,37 @@ void OOStreamFile::writeData(const void *buf,size_t size)
 
 	if(_calculateLengthOnly)
 		return;
-
-	OFilePos_t dwritten;
-	char *bufp = (char *)buf;
-	while((dwritten = _ostr.write((const char *)bufp,size)) != size)
+	
+	// Write large buffers without copying to an intermediate buffer
+	if(size > _ostr.bufferSize())
 	{
-		bufp += dwritten;
-		size -= dwritten;
-		long canWrite = min(_toWrite,_ostr.bufferSize());
-
+		// Flush buffer
+		long canWrite = _ostr.size();
 		writeDataAt(_mark,_ostr.set(),canWrite);
 		_mark += canWrite;
 		_toWrite -= canWrite;
+
+		// Write the data directly
+		writeDataAt(_mark,(void *)buf,size);
+		_mark += size;
+		_toWrite -= size;
+
+	}
+	else
+	{
+		// Write to the intermediate buffer
+		oulong dwritten;
+		char *bufp = (char *)buf;
+		while((dwritten = _ostr.write((const char *)bufp,size)) != size)
+		{
+			bufp += dwritten;
+			size -= dwritten;
+			long canWrite = min(_toWrite,_ostr.bufferSize()); 
+
+			writeDataAt(_mark,_ostr.set(),canWrite);
+			_mark += canWrite;
+			_toWrite -= canWrite;
+		}
 	}
 }
 

@@ -18,7 +18,7 @@
 
 using namespace std;
 
-#define MAX_PATH 1024
+#define D_MAX_PATH 1024
 #define ARRSIZE(a) sizeof(a)/sizeof(a[0])
 
 const char *extensions[] = {".cpp",".h",".CPP",".H"};
@@ -43,7 +43,7 @@ void createBlob(const char *fname)
 void dirwalk(const char *dir,void (*fcn)(const char *))
 // Traverse files in directory dir. Call function fcn for each one.
 {
-char name[MAX_PATH];
+char name[D_MAX_PATH];
 dirent *dp;
 DIR *dfd;
 

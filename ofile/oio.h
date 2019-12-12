@@ -1,10 +1,29 @@
 #ifndef OIO_H
 #define OIO_H
-//======================================================================
-// 	This software may only be compiled in conjunction with a licence
-// agreement with ObjectFile Limited.
-// Copyright(c) 2000 ObjectFile Ltd. 
-//======================================================================
+/*=============================================================================
+MIT License
+
+Copyright(c) 2019 willywood
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+=============================================================================*/
+
 
 // oio.h defines an interface for io in ObjectFile. It is not suprisingly
 // similar to the interface defined by the standard io library of 'C', and
@@ -73,6 +92,8 @@ int oi_fflush(Oi_fd &fd);
 
 void oi_lastError(char *messageBuffer,int maxSize);
 
+char *oi_tmpnam(char *nameBuf,unsigned int maxSize);
+
 #ifndef OF_OLE
 
 // OLE is not implemented so just make inline calls to the basic
@@ -128,6 +149,10 @@ inline void o_lastError(char *messageBuffer,int maxSize)
 	oi_lastError(messageBuffer,maxSize);
 }
 
+inline char *o_tmpnam(char *nameBuf,unsigned int maxSize)
+{
+	return oi_tmpnam(nameBuf,maxSize);
+}
 
 #else
 // OF_OLE
@@ -164,6 +189,9 @@ bool o_setLength(O_fd &fd,OFilePos_t size);
 int o_fflush(O_fd &fd);
 
 void o_lastError(char *messageBuffer,int maxSize);
+
+char *o_tmpnam(char *nameBuf,unsigned int maxSize);
+
 
 #endif // OF_OLE
 

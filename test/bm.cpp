@@ -193,7 +193,7 @@ float totTime  = 0.0;
 	try{
 		file->commit();
 	}catch(OFileErr &x){
-//		MessageBox(x.why());
+		cout << x.why();
 	}
 //*******************************************************************
 	timer.printResult("Save             ",obCount,timer.read());
@@ -207,7 +207,7 @@ float totTime  = 0.0;
 	try{
 		file->commit();
 	}catch(OFileErr &x){
-//		MessageBox(x.why());
+		cout << x.why();
 	}
 //*******************************************************************
 	timer.printResult("Incremental save ",obCount,timer.read());
