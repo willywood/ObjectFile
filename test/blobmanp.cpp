@@ -70,14 +70,23 @@ DIR *dfd;
 
 }
 
-int main()
+// Pass no parameter or a single parameter that reperesents the path to walk.
+int main(int argc, char* argv[])
 {
-	// Create a new file
+	// Create a new file to store the blobs
 	file = new OUFile("blobfile.db",OFILE_CREATE, "~blobfile.db");
 
-	// Traverse files calling createBlob fro each one.
-	dirwalk(".",createBlob);
-	
+	if (argc == 2)
+	{
+		// Traverse files calling createBlob for each one.
+		dirwalk(argv[1], createBlob);
+	}
+	else
+	{
+		// Traverse files calling createBlob for each one.
+		dirwalk(".", createBlob);
+	}
+
 	// Commit the file.
 	file->commit();
 

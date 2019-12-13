@@ -211,33 +211,39 @@ const char *OUFile::createWorkFile(const char *fname,long operation,const char *
 		// Create a workfile.
 		_sWorkFile.create(workName);
 
-		if(fname)
-			strcpy(_fileName,fname);
+		if (fname)
+		{
+			strcpy(_fileName, fname);
+		}
 		else
+		{
 			_fileName[0] = '\0';
+		}
 		break;
 	case OFILE_OPEN_FOR_WRITING | OFILE_CREATE:
 		{
-		// A file must be given when opening an existing file
-		oFAssert(fname);
+			// A file must be given when opening an existing file
+			oFAssert(fname);
 
-		// Create a workfile.
-		_sWorkFile.create(workName);
+			// Create a workfile.
+			_sWorkFile.create(workName);
 
 
-		FILE *fd = fopen(fname,"rb");
-		if(fd)
-		// File exists
-		{
-			fclose(fd);
-			fileCopy(fname,_sWorkFile.name(),ULONG_MAX);
+			FILE *fd = fopen(fname,"rb");
+			if(fd)
+			// File exists
+			{
+				fclose(fd);
+				fileCopy(fname,_sWorkFile.name(),ULONG_MAX);
+			}
+			else
+			{
+				// A new file is created dirty.
+				_dirty = true;
+			}
+
+			strcpy(_fileName,fname);
 		}
-		else
-			// A new file is created dirty.
-			_dirty = true;
-
-		strcpy(_fileName,fname);
-        }
 		break;
 
 	default: oFAssert(0);   // Multiple open flags specified
@@ -394,9 +400,11 @@ void OUFile::save(const char *backupFile)
 
 		// Try to rename the workfile to the file. This can fail if the
 		// work file is on a different device. In that case copy it.
-		if(rename(_workFile.name(),_fileName))
+		if (rename(_workFile.name(), _fileName))
+		{
 			// copy the work file to _fileName, truncating to the useful length.
-			fileCopy(_workFile.name(),_fileName,ULONG_MAX);
+			fileCopy(_workFile.name(), _fileName, ULONG_MAX);
+		}
 
 		// copy the _fileName to work file, truncating to the useful length.
 		fileCopy(_fileName,_workFile.name(),getLength());
@@ -441,8 +449,10 @@ bool OUFile::isDirty(void)
 	if(!_dirty)
 	{
 		// Check if objects are in sync with temporary file.
-		if(inherited::isDirty())
+		if (inherited::isDirty())
+		{
 			_dirty = true;
+		}
 	}
 
 	return _dirty;
@@ -457,8 +467,11 @@ OUFile *OUFile::getOUFile(const char *fName)
 
 	while(file)
 	{
-		if(!strcmp(file->fileName(),fName))
+		if (!strcmp(file->fileName(), fName))
+		{
 			return file;
+		}
+
 		file = (OUFile *)file->getNextOFile();
 	}
 	return 0;

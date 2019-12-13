@@ -55,10 +55,14 @@ void OFileIOErr::addSystemMessage(const char *msg,const char *systemMessage)
 // Add the system message to the message.
 {
 	char *p = new char[strlen(msg) + strlen(systemMessage) + 4];
-	if(strlen(systemMessage))
-		sprintf(p,"%s\n%s",msg,systemMessage);
+	if (strlen(systemMessage))
+	{
+		sprintf(p, "%s\n%s", msg, systemMessage);
+	}
 	else
-		strcpy(p,msg);
+	{
+		strcpy(p, msg);
+	}
 	_msg = p;
 }
 

@@ -24,11 +24,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 =============================================================================*/
 
+
+// Platform compilation workarounds
+#ifdef _MSC_VER
+// 1924 is VS 20019. It is probably not needed in earlier versions too.
+#if (_MSC_VER < 1924)
+typedef __int32 int32_t;
+typedef unsigned __int32 uint32_t;
+typedef __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+#include <cassert>
+#else
+#include <stdint.h>
+#endif
+#else
+#include <stdint.h>
+#endif
+
 ///////////////////////////////////////////////////////////////
 // Developer definable macros. 
 // These can also be defined on the compiler command line.
-
-#include <stdint.h>
 
 // Define this for ole2 support
 //#define OF_OLE
@@ -63,15 +78,14 @@ const OClassId_t cOMaxClasses = 250;
 // If you want to store 64 bit longs then define this.
 #define OFILE_64BIT_LONGS 1
 
-// On Windows 2000/XP you can write files up to 2**44 - 64Kb
+// On Windows you can write files up to (2**44 - 64Kb)
 // On 64 bit platforms you can also write large files.
-// The IO in oio.cpp is implemented for Windows 2000/XP so you can
-// use it right away. However it will not work on other
-// Windows platforms.
+// The IO in oio.cpp is implemented for Windows so you can
+// use it right away. 
 // Note that defining this will make the file format only compatible with
 // files written with the same define.
 // All file addresses become 8 byte, so objects require an extra 4 bytes
-// of storage.
+// of storage for its index.
 //#define OFILE_64BIT_FILE_ADDRESSES 1
 #ifdef OFILE_64BIT_FILE_ADDRESSES
 typedef OSYS_LONG64 OFilePos_t;
@@ -81,7 +95,7 @@ typedef unsigned long OFilePos_t;
 
 // Maximum size of the file in bytes.
 #ifdef OFILE_64BIT_FILE_ADDRESSES
-inline OFilePos_t cOFileMaxLength(){return 100000000000;} // 100 Giga
+inline OFilePos_t cOFileMaxLength(){return 100*1024*1024;} // 100 Giga
 #else
 inline OFilePos_t cOFileMaxLength(){return 2147483647UL;} //LONG_MAX
 // 4GB can be supported by WIN32. However be careful because
@@ -176,10 +190,10 @@ typedef long O_LONG64;    // Eight bytes
 // For eliminating compiler warnings
 #define OFILE_UNUSED(x) (void)(x)
 
-// This may be redefined to an application specific assert method, in order
+// This may be re-defined to an application specific assert method, in order
 // to improve the debugging process. 
 #ifndef	oFAssert
-#define oFAssert(x) {OFILE_UNUSED(x); assert(x);}
+#define oFAssert(x) {assert(x);}
 #endif
 
 const OClassId_t cOPersist = 1;

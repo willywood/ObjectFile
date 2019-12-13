@@ -46,8 +46,10 @@ bool OOStream::VBWrite(void)
 // Check whether to write virtual base class.
 // Return value : true if it should be written; false if it has already been written.
 {
-	if(_VBWritten)
+	if (_VBWritten)
+	{
 		return(false);
+	}
 	else
 	{
 		_VBWritten = true;
@@ -60,8 +62,10 @@ void OOStreamFile::writeLong(O_LONG data,const char * /* label */)
 // Write a long word (4 bytes)
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	if(file()->needSwap())
-		OUtilityFunction::swap32((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swap32((char*)&data);
+	}
 
 	writeData(&data,sizeof(O_LONG));
 }
@@ -73,8 +77,10 @@ void OOStreamFile::writeLong64(O_LONG64 data,const char * /* label */)
 	// Do not want to write 64 bit longs if we do not have them.
 	oFAssert(sizeof(O_LONG64) == 8);
 
-	if(file()->needSwap())
-		OUtilityFunction::swap64((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swap64((char*)&data);
+	}
 
 	writeData(&data,sizeof(O_LONG64));
 }
@@ -83,8 +89,10 @@ void OOStreamFile::writeFilePos(OFilePos_t data,const char * /* label */)
 // Write a long word (4 bytes)
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	if(file()->needSwap())
-		OUtilityFunction::swapFilePos((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swapFilePos((char*)&data);
+	}
 
 	writeData(&data,sizeof(OFilePos_t));
 }
@@ -93,8 +101,10 @@ void OOStreamFile::writeFloat(float data,const char * /* label */)
 // Write a float (4 bytes)
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	if(file()->needSwap())
-		OUtilityFunction::swap32((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swap32((char*)&data);
+	}
 
 	writeData(&data,sizeof(float));
 }
@@ -103,8 +113,10 @@ void OOStreamFile::writeDouble(double data,const char * /* label */)
 // Write a double (8 bytes)
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	if(file()->needSwap())
-		OUtilityFunction::swap64((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swap64((char*)&data);
+	}
 
 	writeData(&data,sizeof(double));
 }
@@ -113,8 +125,10 @@ void OOStreamFile::writeShort(O_SHORT data,const char * /* label */)
 // Write a two byte word.
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	if(file()->needSwap())
-		OUtilityFunction::swap16((char *)&data);
+	if (file()->needSwap())
+	{
+		OUtilityFunction::swap16((char*)&data);
+	}
 
 	writeData(&data,sizeof(O_SHORT));
 }
@@ -163,8 +177,10 @@ void OOStreamFile::writeWCString(const O_WCHAR_T * str,const char * /* label */)
 	oFAssert(len < USHRT_MAX);
 	writeShort((unsigned short)len);
 	// write as shorts to preserve byte ordering
-	for(unsigned int i = 0;i < len;i++)
+	for (unsigned int i = 0; i < len; i++)
+	{
 		writeWChar(str[i]);
+	}
 }
 
 void OOStreamFile::writeCString256(const char * str,const char * /* label */)
@@ -187,8 +203,10 @@ void OOStreamFile::writeWCString256(const O_WCHAR_T * str,const char * /* label 
 	oFAssert(len < 256);
 	writeChar((unsigned char)len);
 	// write as shorts to preserve byte ordering
-	for(unsigned int i = 0;i < len;i++)
+	for (unsigned int i = 0; i < len; i++)
+	{
 		writeWChar(str[i]);
+	}
 }
 
 void OOStreamFile::writeBytes(const void *buf,size_t nBytes,const char * /*label */)
@@ -214,7 +232,9 @@ void OOStreamFile::writeBits(const void *buf,size_t nBytes,const char * /*label 
 		}
 	}
 	else
-		writeData(buf,nBytes);
+	{
+		writeData(buf, nBytes);
+	}
 }
 
 void OOStreamFile::writeObjectId(OId id,const char * /* label */)
@@ -233,8 +253,11 @@ void OOStreamFile::writeObject(OPersist *ob,const char * /* label */)
 {
 	if(ob){
 		writeObjectId(ob->oId());
-	}else
+	}
+	else
+	{
 		writeObjectId(0);
+	}
 }
 
 
@@ -285,20 +308,26 @@ void OOStreamFile::close(void)
 
 OOStreamFile::~OOStreamFile(void)
 {
-	if(_ownsFile)
+	if (_ownsFile)
+	{
 		// Close the file.
 		o_fclose(_fd);
+	}
 	else
+	{
 		// just flush it.
 		o_fflush(_fd);
+	}
 }
 
 bool OOStreamFile::setLength(OFilePos_t size)
 // Set the file length to size bytes.
 // Return - true on success; false on failure.
 {
-	if(!o_setLength(_fd,size))
+	if (!o_setLength(_fd, size))
+	{
 		return false;
+	}
 
 	_fileLength = size;
 	return true;
@@ -311,11 +340,13 @@ void OOStreamFile::writeData(const void *buf,size_t size)
 {
 	_count += (OFilePos_t)size;
 
-	if(_calculateLengthOnly)
+	if (_calculateLengthOnly)
+	{
 		return;
+	}
 	
 	// Write large buffers without copying to an intermediate buffer
-	if(size > _ostr.bufferSize())
+	if(size > (size_t)_ostr.bufferSize())
 	{
 		// Flush buffer
 		long canWrite = _ostr.size();
@@ -350,27 +381,32 @@ void OOStreamFile::writeData(const void *buf,size_t size)
 void OOStreamFile::writeDataAt(OFilePos_t mark,void *buf,unsigned long size)
 // Write data to the specified position in the file.
 {
-	if(_calculateLengthOnly || (size == 0))
+	if (_calculateLengthOnly || (size == 0))
+	{
 		return;
+	}
 
 	// Make sure the file is long enough as on some platforms you cannot write
 	// beyond the end of the file.
 	OFilePos_t required = mark + size;
 	if(required > _fileLength)
 	{
-		if(!setLength(required))
+		if (!setLength(required))
+		{
 			throw OFileIOErr("Write failure.");
+		}
 	}
 
 	// Set the file position
 	int serr = o_fseek(_fd,mark,SEEK_SET);
-	if(serr)
-		oFAssert(serr ==  0);
+	oFAssert(serr ==  0);
 
 	// Should handle huge data ???
 	long err = o_fwrite(buf,size,1,_fd);
-	if(err != 1)
+	if (err != 1)
+	{
 		throw OFileIOErr("Write failure.");
+	}
 }
 
 void OOStreamFile::writeFile(const char *fname,OFilePos_t mark,oulong from,oulong size)
@@ -380,24 +416,28 @@ void OOStreamFile::writeFile(const char *fname,OFilePos_t mark,oulong from,oulon
 	if(_calculateLengthOnly || (size == 0))
 		return;
 
+	// Open the blob file
 	O_fd fd = o_fopen(fname,OFILE_OPEN_READ_ONLY);
+
 	// Set the file position
 	int serr = o_fseek(_fd,mark,SEEK_SET);
-	if(serr)
-		oFAssert(serr ==  0);
+	oFAssert(serr ==  0);
+
+	// Set the blob position
 	serr = o_fseek(fd,from,SEEK_SET);
-	if(serr)
-		oFAssert(serr ==  0);
+	oFAssert(serr ==  0);
 
 	const oulong cBufSize = 1024;
-	long n;
-	char buf[cBufSize];
 
+	// Copy the data from the blob file one buffer at a time.
 	for(oulong i = 0; i < size; i += cBufSize)
 	{		
-		n = o_fread(buf,1,max(cBufSize,size % cBufSize),fd);
-		if(o_fwrite(buf,1,n,_fd) != n)
-			oFAssert(0);
+		char buf[cBufSize];
+
+		long nBlobBytesRead = o_fread(buf,1,max(cBufSize,size % cBufSize),fd);
+		long nBlobBytesWritten = o_fwrite(buf, 1, nBlobBytesRead, _fd);
+
+		oFAssert(nBlobBytesWritten == nBlobBytesRead);
 	}
 
 	o_fclose(fd);

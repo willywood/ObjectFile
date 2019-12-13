@@ -183,15 +183,19 @@ void ObjectHandler::startElement(const XMLCh *localName,OAttributes *_attributes
     	// Maybe a Null object reference, but we will only know if we hit an endtag.
 	   	_maybeNullRef = true;
 	}
-	if(_tagLabel)
-		BasicHandler::startElement(localName,_attributes);
+	if (_tagLabel)
+	{
+		BasicHandler::startElement(localName, _attributes);
+	}
 }
 
 void ObjectHandler::endElement(const XMLCh * /*localName*/)
 {
-	if(_maybeNullRef)
-		// Nowe we know for sure.
+	if (_maybeNullRef)
+	{
+		// Now we know for sure.
 		_obj = true;
+	}
 }
 
 class PrimitiveHandler: public BasicHandler
@@ -218,21 +222,29 @@ void PrimitiveHandler::startElement(const XMLCh *localName,OAttributes *_attribu
 	BasicHandler::startElement(localName,_attributes);
 	_got = cStarted;
 	// Null terminate
-	if(_bufp)
+	if (_bufp)
+	{
 		_bufp[0] = 0;
+	}
 }
 void PrimitiveHandler::endElement(const XMLCh * /* localName */)
 { 
-	if(_got == cStarted)
+	if (_got == cStarted)
+	{
 		_got = cFinished;
+	}
 	else
+	{
 		_got = cNone;
+	}
 }
 void PrimitiveHandler::characters(const XMLCh *characters,int len)
 { 
 	len = min(len,_maxLen);
-	for(int i = 0;i<len; i++)
+	for (int i = 0; i < len; i++)
+	{
 		_bufp[_len++] = (char)characters[i];
+	}
 	// Null terminate
 	_bufp[_len++] = 0;
 }
@@ -257,8 +269,10 @@ void BitHandler::characters(const XMLCh *characters,int len)
 		byte = bit / 8;
 
 		// Check that we have not exceded the expected number of bytes.
-		if(byte >= _maxLen)
+		if (byte >= _maxLen)
+		{
 			throw OFileErr("Too many bits.");
+		}
 
 		if(bitInbyte  == 0)
 			_bufp[byte] = 0; 
@@ -294,12 +308,16 @@ void ByteHandler::characters(const XMLCh *characters,int len)
 	for(int i = 0;i<len; i++)
 	{
 		// Check that we have not exceded the expected number of bytes.
-		if(_len > _maxLen)
+		if (_len > _maxLen)
+		{
 			throw OFileErr("Too many bytes.");
+		}
 
 		// Initialize the byte
-		if(_first)
+		if (_first)
+		{
 			_bufp[_len] = 0;
+		}
         // Ignore case
 		XMLCh hex = (unsigned char)tolower(characters[i]);
 		if(hex >= '0' && hex <= '9')
@@ -329,9 +347,11 @@ void ByteHandler::characters(const XMLCh *characters,int len)
 		}
 		if(_hexFound)
 		{
-			if(!_first)
+			if (!_first)
+			{
 				// Shift the lower nibble up.
 				_bufp[_len] <<= 4;
+			}
 			// Set the nible into the buffer.
 			_bufp[_len] |= hex;
 			_first = !_first;
@@ -363,23 +383,31 @@ void WPrimitiveHandler::startElement(const XMLCh *localName,OAttributes *_attrib
 	BasicHandler::startElement(localName,_attributes);
 	_got = cStarted;
 	// Null terminate
-	if(_bufp)
+	if (_bufp)
+	{
 		_bufp[0] = 0;
+	}
 }
 
 void WPrimitiveHandler::endElement(const XMLCh * /*localName */)
 { 
-	if(_got == cStarted)
+	if (_got == cStarted)
+	{
 		_got = cFinished;
+	}
 	else
+	{
 		_got = cNone;
+	}
 }
 
 void WPrimitiveHandler::characters(const XMLCh *characters,int len)
 { 
 	len = min(len,_maxLen);
-	for(int i = 0;i<len; i++)
+	for (int i = 0; i < len; i++)
+	{
 		_bufp[_len++] = characters[i];
+	}
 	// Null terminate
 	_bufp[_len++] = 0;
 }
@@ -457,8 +485,10 @@ void OIStreamXML::readObjects(OClassId_t classId,bool deep)
 	try
 	{
 		// Find the start of the document.
-		while(!h._start)
+		while (!h._start)
+		{
 			_reader.parseFirst(&_in);
+		}
 
 		// Read objects untill none is found.
 		while(readObject());
@@ -479,17 +509,22 @@ void OIStreamXML::readObjects(OClassId_t classId,bool deep)
 	{
 		// If deep then check if the class is in the hierarchy otherwise check
 		// for an exact match.
-		if((deep && (*it).second->meta()->isA(classId)) || 
-			(!deep && (*it).second->meta()->id() == classId))
-			_file->attach((*it).second,false);
+		if ((deep && (*it).second->meta()->isA(classId)) || (!deep && (*it).second->meta()->id() == classId))
+		{
+			_file->attach((*it).second, false);
+		}
 		else
+		{
 			delete (*it).second;
+		}
 	}
 
 	// Find and set the root if there is one.
 	ObjectList::iterator oret = _readObjects.find(h._rootId);
-	if(_readObjects.end() != oret)
-		_file->setRoot( (*oret).second);
+	if (_readObjects.end() != oret)
+	{
+		_file->setRoot((*oret).second);
+	}
 }
 
 // Return the version of this file.
@@ -513,6 +548,7 @@ void OIStreamXML::setCurrentObject(OPersist *ob)
 	if(!_currentOId)
 	{
 		while(!_readObjects.count(++_uniqueId));
+
 		_currentOId = _uniqueId;
 	}	
 	_readObjects.insert(ObjectList::value_type(_currentOId,ob));
@@ -525,8 +561,11 @@ O_LONG OIStreamXML::readLong(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	O_LONG data = atoi(_strBuffer.str);
 	return data;
 }
@@ -538,8 +577,10 @@ O_LONG64 OIStreamXML::readLong64(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 	O_LONG64 data = atoi(_strBuffer.str);
 	return data;
 }
@@ -560,8 +601,11 @@ float OIStreamXML::readFloat(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	float data = (float)atof(_strBuffer.str);
 	return data;
 }
@@ -573,8 +617,10 @@ double OIStreamXML::readDouble(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 	double data = atof(_strBuffer.str);
 	return data;
 }
@@ -611,8 +657,11 @@ O_WCHAR_T OIStreamXML::readWChar(const char *label)
 	WPrimitiveHandler h(label,_strBuffer.wstr);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	return _strBuffer.wstr[0];
 }
 
@@ -623,8 +672,11 @@ bool OIStreamXML::readBool(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	return strcmp(_strBuffer.str,"true") == 0;
 }
 
@@ -638,8 +690,10 @@ void OIStreamXML::readCString(char * str,unsigned int maxlen,const char *label)
 	PrimitiveHandler h(label,str,maxlen);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 }
 
 void OIStreamXML::readWCString(O_WCHAR_T * str,unsigned int maxlen,const char *label)
@@ -652,8 +706,10 @@ void OIStreamXML::readWCString(O_WCHAR_T * str,unsigned int maxlen,const char *l
 	WPrimitiveHandler h(label,str,maxlen);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 }
 
 char * OIStreamXML::readCString256(const char *label)
@@ -664,8 +720,11 @@ char * OIStreamXML::readCString256(const char *label)
 	PrimitiveHandler h(label,_strBuffer.str);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	return _strBuffer.str;
 }
 
@@ -678,8 +737,11 @@ O_WCHAR_T * OIStreamXML::readWCString256(const char *label)
 	WPrimitiveHandler h(label,_strBuffer.wstr);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
+
 	return _strBuffer.wstr;
 }
 
@@ -714,8 +776,10 @@ O_WCHAR_T *OIStreamXML::readWCString(const char *label)
 	WPrimitiveHandler h(label,str,15 << 1,true);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 
 	// Reduce the buffer by creating and copying to one of the correct length.
 	O_WCHAR_T *ret = new O_WCHAR_T[h._len + 1];
@@ -761,8 +825,10 @@ void OIStreamXML::readBytes(void *buf,int len,const char *label)
 	ByteHandler h(label,buf,len);
 	_reader.setContentHandler(&h);
 	
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 }
 
 void OIStreamXML::readBits(void *buf,int len,const char *label)
@@ -774,8 +840,10 @@ void OIStreamXML::readBits(void *buf,int len,const char *label)
 	BitHandler h(label,buf,len);
 	_reader.setContentHandler(&h);
 
-	while(h._got != h.cFinished)
+	while (h._got != h.cFinished)
+	{
 		parseNext();
+	}
 }
 
 void OIStreamXML::beginObject(const char *label)
@@ -784,8 +852,10 @@ void OIStreamXML::beginObject(const char *label)
 	ObjectHandler h(label);
 	_reader.setContentHandler(&h);
 
-	while(!h._open)
+	while (!h._open)
+	{
 		parseNext();
+	}
 }
 
 void OIStreamXML::endObject(void)
@@ -815,9 +885,11 @@ OPersist *OIStreamXML::readObject(const char *label)
 
 	do
 	{
-    	if(!_reader.parseNext())
+		if (!_reader.parseNext())
+		{
 			// End of file
 			return 0;
+		}
 	}while(!h._obj); // While an object is not found.
 
 	if(h._obj && h._objType)
@@ -850,9 +922,11 @@ OPersist *OIStreamXML::readObject(const char *label)
 			ObjectList::iterator ret= _readObjects.find(h._objOId);
 			ob = (*ret).second;
         }
-        else
+		else
+		{
 			// Null Reference
-        	ob = 0;
+			ob = 0;
+		}
 	}
 	return ob;
 }
@@ -901,8 +975,11 @@ OFile *OIStreamXML::readBlobHeader(OFilePos_t *mark,oulong *blobLength,
 	_blobHandler =  new BLOBHandler(label,0);
 	_reader.setContentHandler(_blobHandler);
 
-	while(_blobHandler->_got != _blobHandler->cStarted)
+	while (_blobHandler->_got != _blobHandler->cStarted)
+	{
 		parseNext();
+	}
+
 	*mark = 0;
 	*fileLength = _blobHandler->_size;
 	*blobLength = 0;
@@ -936,8 +1013,10 @@ void OIStreamXML::finish(void)
 void OIStreamXML::parseNext()
 // Parse. Throw an exception in case the end of file is reached.
 {
-	if(!_reader.parseNext())
-       throw OFileErr("XML Parser reached end of file.");
+	if (!_reader.parseNext())
+	{
+		throw OFileErr("XML Parser reached end of file.");
+	}
 }
 
 
@@ -1016,7 +1095,8 @@ size_t BLOBHandler::base64_decode(const XMLCh *source, size_t sourcelen,unsigned
     }
 
     /* we decoded the whole buffer */
-    if (i == sourcelen) {
+    if (i == sourcelen)
+	{
         return dest-target;
     }
 

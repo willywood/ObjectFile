@@ -132,7 +132,9 @@ OBlobP::OBlobP(const OBlobP &from):_file(0),_mark(0),
 		memcpy(getBlob(),from.const_getBlob(),from._blobLength);
 	}
 	else
+	{
 		_blob = 0;
+	}
 
 	_blobLength = from._blobLength;
 
@@ -174,7 +176,7 @@ OBlobP& OBlobP::operator =(const OBlobP &from)
 	// Add to global cache
 	_cache.add(_blobLength);
 
-    _dirty = true;
+	_dirty = true;
 
 	return *this;
 }
@@ -227,9 +229,11 @@ void OBlobP::oWrite(OOStream *out,const char *label)const
 	out->writeBlobHeader(_mark,_fileLength);
 
 	// Write the blob part only if it has changed.
-	if(_dirty)
+	if (_dirty)
+	{
 		// Set dirty false if data was actually written
-		((OBlobP *)this)->_dirty = !out->writeBlob(_blob,_mark,_fileLength,label);
+		((OBlobP*)this)->_dirty = !out->writeBlob(_blob, _mark, _fileLength, label);
+	}
 
 }
 
@@ -362,17 +366,24 @@ bool OBlobP::purge(void)
 		_blob = 0;
 		_blobLength = 0;
 		return true;
-	}else
+	}
+	else
+	{
 		return false;
+	}
 }
 
 
 size_t OBlobP::size(void)const
 // Return the size of the blob data.
 {
-	if(_blob)
+	if (_blob)
+	{
 		return _blobLength;
+	}
 	else
+	{
 		return _fileLength;
+	}
 }
 

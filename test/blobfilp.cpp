@@ -22,7 +22,7 @@ BlobFile::BlobFile(const char *fname):_name(fname)
 	file.seekg(0L,ios::beg);
 	char ch;
 	long i = 0;
-	while(!file.eof() && (ch = file.get()))
+	while((ch = file.get()) && !file.eof())
 		datap[i++] = ch;
 
 	// datap is now owned by the blob.

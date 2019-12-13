@@ -59,8 +59,10 @@ void *OPersist::operator new(size_t size)
 	while(OFile::_sObjectCacheCount >= OFile::_sObjectThreshold)
 	{
 		// Object threshold has been reached.
-		if(OFile::_sNew_handler)
+		if (OFile::_sNew_handler)
+		{
 			(*OFile::_sNew_handler)();
+		}
 		else
 		{
 		    // FIXME We should not return null.

@@ -16,6 +16,7 @@ Key features are:
   * Objects can be in or out of memory.
   * BLOB support.
   * XML object and full database representation can be generated.
+  * Import and export objects from xml.
   * Proven in a large desktop application.
   * Open source and free to use.
 

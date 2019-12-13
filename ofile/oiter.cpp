@@ -57,10 +57,12 @@ OPersist* OIterator::begin(void)
 	OMeta::Classes::const_iterator cSetIt = _classes.begin();
 	OFile::ClassList::iterator cListIt;
 
-	while(cSetIt != _classes.end()){
-		if((cListIt = _oFile->_cList.classList(*_cSetIt).begin()) !=
-			_oFile->_cList.classList(*_cSetIt).end())
-			return _oFile->getObject(cListIt,*cSetIt);
+	while(cSetIt != _classes.end())
+	{
+		if ((cListIt = _oFile->_cList.classList(*_cSetIt).begin()) != _oFile->_cList.classList(*_cSetIt).end())
+		{
+			return _oFile->getObject(cListIt, *cSetIt);
+		}
 		cSetIt++;
 	}
 	return 0;
@@ -76,9 +78,11 @@ OPersist *OIterator::object(OId id)
 	while(cSetIt != _classes.end())
 	{
 		OFile::ClassList::iterator it = _oFile->_cList.classList(*cSetIt).find(id);
-		if(it != _oFile->_cList.classList(*cSetIt).end() )
+		if (it != _oFile->_cList.classList(*cSetIt).end())
+		{
 			// found
-			return _oFile->getObject(it,*cSetIt);
+			return _oFile->getObject(it, *cSetIt);
+		}
 	}
 	return 0;
 }
@@ -88,12 +92,14 @@ OPersist* OIterator::operator*()
 // Return the object at the current position.
 // Adds a reference to the object.
 {
-	if(_cSetIt != _classes.end() &&
-		  _cListIt != _oFile->_cList.classList(*_cSetIt).end()){
+	if(_cSetIt != _classes.end() && _cListIt != _oFile->_cList.classList(*_cSetIt).end())
+	{
 		return  _oFile->getObject(_cListIt,*_cSetIt);
 	}
 	else
+	{
 		return 0;
+	}
 
 }
 
@@ -104,7 +110,8 @@ OPersist* OIterator::operator++()     // prefix ++a
 	if(_cSetIt != _classes.end() )
 	{
 		// Advance to next object
-		if(++_cListIt != _oFile->_cList.classList(*_cSetIt).end()){
+		if(++_cListIt != _oFile->_cList.classList(*_cSetIt).end())
+		{
 			return operator*();
 		}
 		else
@@ -114,7 +121,8 @@ OPersist* OIterator::operator++()     // prefix ++a
 			{
 				// Reset class list iterator to start of next class
 				_cListIt = _oFile->_cList.classList(*_cSetIt).begin();
-				if(_cListIt != _oFile->_cList.classList(*_cSetIt).end()){
+				if(_cListIt != _oFile->_cList.classList(*_cSetIt).end())
+				{
 					return operator*();
 				}
 			}
@@ -140,9 +148,11 @@ OPersist* OIterator::operator++(int)  // postfix a++
 			{
 				// Reset class list iterator to start of next class
 				_cListIt = _oFile->_cList.classList(*_cSetIt).begin();
-				if(_cListIt != _oFile->_cList.classList(*_cSetIt).end())
+				if (_cListIt != _oFile->_cList.classList(*_cSetIt).end())
+				{
 					// found a class list with an object
 					break;
+				}
 			}
 		}
 	}

@@ -40,6 +40,7 @@ SOFTWARE.
 #include <map>
 #endif
 #include <limits.h>
+#include < algorithm >
 #include "oflist.h"
 #include "ostrm.h"
 #include "oistrm.h"

@@ -69,14 +69,14 @@ OMeta::OMeta(OClassId_t id,Func create,...):_cId(id),_create(create),_className(
 
 	// Initialise _super (0 terminated super class list)
 	for (int i = 0; i <= cMaxSupers ; i++)
-   {
-	   OClassId_t id = va_arg(ap,OClassId_t);
-      if(id == 0)
-      	break;
+	{
+		OClassId_t id = va_arg(ap,OClassId_t);
+		if(id == 0)
+		break;
 		// Maximum of cMaxSupers superclasses. Increase it here and in header file.
-      oFAssert( i < cMaxSupers || (i == cMaxSupers && id == 0));
-      _super[i] = id;
-   }
+		oFAssert( i < cMaxSupers || (i == cMaxSupers && id == 0));
+		_super[i] = id;
+	}
 
 	va_end(ap);
 
@@ -105,13 +105,19 @@ void OMeta::initialize(void)
 												_metaList[i]->_subclasses.end());
 		}
 
-		for(i = 0;i < _nmeta; i++){
-			if(_metaList[i])
+		for(i = 0;i < _nmeta; i++)
+		{
+			if (_metaList[i])
+			{
 				_metaList[i]->setSubclasses();
+			}
 		}
-		for(i = 0;i < _nmeta; i++){
-			if(_metaList[i])
+		for(i = 0;i < _nmeta; i++)
+		{
+			if (_metaList[i])
+			{
 				_metaList[i]->getClassesDeep(_metaList[i]->_subclassesSet);
+			}
 		 }
 		_initialized = true;
 	}
@@ -125,7 +131,8 @@ void OMeta::setSubclasses(void)
 // Set the sub-classes of this class.
 {
 	int i = 0;
-	while(_super[i]){
+	while(_super[i])
+	{
 		_metaList[_super[i] - 1]->setSubclass(this);
 		i++;
 	}
@@ -161,8 +168,10 @@ bool OMeta::isA(OClassId_t id)const
 	// Recurse up the super classes
 	for(int i = 0; _super[i] != 0; i++)
 	{
-		if(_metaList[_super[i] - 1]->isA(id))
+		if (_metaList[_super[i] - 1]->isA(id))
+		{
 			return true;
+		}
 	}
 	return false;
 }
@@ -199,10 +208,15 @@ const char *OMeta::className(OPersist *ob)
 OMeta *OMeta::meta(const char *className)
 // Return a pointer to the meta class of the class names className or 0 if not found.
 {
-	for(int i = 0;i < _nmeta; i++){
-		if(_metaList[i])
-			if(_metaList[i]->_className && strcmp(_metaList[i]->_className,className) == 0)
-				return _metaList[i]; 
+	for(int i = 0;i < _nmeta; i++)
+	{
+		if (_metaList[i])
+		{
+			if (_metaList[i]->_className && strcmp(_metaList[i]->_className, className) == 0)
+			{
+				return _metaList[i];
+			}
+		}
 	}
 	return 0;
 }
