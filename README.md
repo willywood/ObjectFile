@@ -20,6 +20,8 @@ Key features are:
   * Proven in a large desktop application.
   * Small footprint.
   * Database files can be small or very large.
+  * Cross-platform and portable.
+  * Portable file format.
   * Open source and free to use.
 
 
