@@ -14,10 +14,12 @@ Key features are:
   * Byte order conversion supported for cross-platform support.
   * Memory efficient.
   * Objects can be in or out of memory.
-  * BLOB support.
+  * Binary Large Object (BLOB) support.
   * XML object and full database representation can be generated.
   * Import and export objects from xml.
   * Proven in a large desktop application.
+  * Small footprint.
+  * Database files can be small or very large.
   * Open source and free to use.
 
 
