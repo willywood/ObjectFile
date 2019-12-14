@@ -908,20 +908,20 @@ OPersist *OIStreamXML::readObject(const char *label)
 			// clean the index, because the object was not constructed.
 			throw;
 		}
-        // Parse the end tag.  Must set a new handler because contructing the object
-        // caused other handlers to be set.
+		// Parse the end tag.  Must set a new handler because contructing the object
+		// caused other handlers to be set.
 		ObjectHandler h1(label);
 		_reader.setContentHandler(&h1);
-        parseNext();
+		parseNext();
 	}
 	else
 	{
-    	if(h._objOId)
-        {
+		if(h._objOId)
+		{
 			// Reference
 			ObjectList::iterator ret= _readObjects.find(h._objOId);
 			ob = (*ret).second;
-        }
+		}
 		else
 		{
 			// Null Reference

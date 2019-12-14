@@ -45,11 +45,11 @@ void OUFile::convert(void)
 		OIterator it(this,cOPersist);
 		while(it++);
 
-	   if(!isReadOnly())
-   	{
+		if(!isReadOnly())
+		{
 			// Might like to commit and purge to release memory
 			commit();
 			purge();
-	   }
+		}
 	}
 }

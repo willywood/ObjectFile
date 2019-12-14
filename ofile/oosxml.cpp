@@ -71,14 +71,14 @@ SOFTWARE.
 static const char *unnamed = "unnamed_object";
 
 OOStreamXML::OOStreamXML(OFile *file, std::ostream &out,bool writeBlobsToFile):
-						   OOStream(0),
-						   _out(out),
-                           _sp(0),
-                           _currentObj(0),
-                           _style(cSAX),
-                           _indent(true),
-						   _writeBlobsToFile(writeBlobsToFile),
-						   _fromFile(file)
+							OOStream(0),
+							_out(out),
+							_sp(0),
+							_currentObj(0),
+							_style(cSAX),
+							_indent(true),
+							_writeBlobsToFile(writeBlobsToFile),
+							_fromFile(file)
 // Constructor
 // file - OFile from which to take the objects to be written.
 // out - steam to which to write the XML formatted object.
@@ -153,9 +153,9 @@ void OOStreamXML::writeObjectAsXML(OPersist *ob)
 	// If the object has not been written
 	if(!_writtenObjects.count(ob->oId()))
 	{
-	    start(ob);
-    	ob->oWrite(this);
-        finish();
+		start(ob);
+		ob->oWrite(this);
+		finish();
 
 		// If there was an io error then abort.
 		if(_out.fail())
@@ -164,10 +164,10 @@ void OOStreamXML::writeObjectAsXML(OPersist *ob)
 }
 
 void OOStreamXML::writeObjects(const char *appName,
-						   OClassId_t classId,
-						   bool deep,
-						   const char *encoding)
-// Write all the objects in file of class classId. Also their sub-classes
+								OClassId_t classId,
+								bool deep,
+								const char *encoding)
+		// Write all the objects in file of class classId. Also their sub-classes
 // if deep is true(default = true).
 // If appName is none zero then produce a document of name appName.
 // If encoding is non-zero(default 0) then use it as the character encoding of 
@@ -216,10 +216,10 @@ void OOStreamXML::start(OPersist *ob)
 	_VBWritten = false;
 
 	_out << '<' << ob->meta()->className(ob)
-	            << " type=\"" << ob->meta()->id()
-	            << "\" ID=\"id" << ob->oId()
-	            << "\" ver=\"" << OFile::userSourceVersion()
-	     <<"\">\n";
+				<< " type=\"" << ob->meta()->id()
+				<< "\" ID=\"id" << ob->oId()
+				<< "\" ver=\"" << OFile::userSourceVersion()
+				<<"\">\n";
 
 	// Check that we have not already written such an object
 	oFAssert(!_writtenObjects.count(ob->oId()));
@@ -422,7 +422,7 @@ void OOStreamXML::writeWCString(const O_WCHAR_T * str, const char *label)
  	startData(label);
 	_out << "<![CDATA["; 
 	const O_WCHAR_T *endOfStr = str + wcslen(str);
-    while(endOfStr != pwriteWCString(str));
+	while(endOfStr != pwriteWCString(str));
 	_out << "]]>";
 	endData();
 }
@@ -431,12 +431,18 @@ void OOStreamXML::writeEscapedString(const char *str)
 {
 	while(*str)
 	{
-		if('<' == *str)
+		if ('<' == *str)
+		{
 			_out << "&#38;#60;";
-		else if('&' == *str)
+		}
+		else if ('&' == *str)
+		{
 			_out << "&#38;#38;";
+		}
 		else
+		{
 			_out << *str;
+		}
 		str++;
 	}
 }
@@ -470,7 +476,7 @@ void OOStreamXML::writeBytes(const void *buf, size_t nBytes, const char *label)
 
 	char *bufp = (char *)buf;
 	for(size_t i = 0; i < nBytes; i++)
-    {
+	{
 		char hex[20];
 		sprintf(hex,"%x",(int)*bufp++);
 		if (strlen(hex) > 2)
@@ -481,7 +487,7 @@ void OOStreamXML::writeBytes(const void *buf, size_t nBytes, const char *label)
 		{
 			_out << ' ' << hex;
 		}
-	}		            
+	}
 	endData();
 }
 
@@ -495,14 +501,14 @@ void OOStreamXML::writeBits(const void *buf, size_t nBytes, const char *label)
 	startData(label);
 	unsigned char *bufp = (unsigned char *)buf;
 	for(size_t i = 0; i < nBytes; i++)
-    {
-    	for (int j = 0; j < 8; j++)
-        {
+	{
+		for (int j = 0; j < 8; j++)
+		{
 			if ((*bufp & masks[j]))
 				_out << '1';
 			else
 				_out << '0';
-        }
+		}
 		bufp++;
 	}
 	endData();
@@ -512,24 +518,24 @@ void OOStreamXML::writeObjectReference(OId id,const char *label)
 // Private .
 // Write a reference to a persistent object.
 {
-		indent(_sp);
+	indent(_sp);
 
-		// Remove the "o:"
-		if (label && 0 == strncmp("o:", label, 2))
-		{
-			label += 2;
-		}
+	// Remove the "o:"
+	if (label && 0 == strncmp("o:", label, 2))
+	{
+		label += 2;
+	}
 
-		// Just write a reference.
-		_out << '<' << label;
+	// Just write a reference.
+	_out << '<' << label;
 
-		// Only write a reference if there is one (If not it is illegal XML)
-		if (id)
-		{
-			_out << " IDREF=\"id" << id << '\"';
-		}
+	// Only write a reference if there is one (If not it is illegal XML)
+	if (id)
+	{
+		_out << " IDREF=\"id" << id << '\"';
+	}
 
-		_out << "/>\n";
+	_out << "/>\n";
 }
 
 void OOStreamXML::writeObjectInstance(OPersist *ob, const char *label)
@@ -540,22 +546,22 @@ void OOStreamXML::writeObjectInstance(OPersist *ob, const char *label)
 //         the label starts with "o:", indicating ownership, then the object
 //         is written embedded in the current object.
 {
-		// Save class variables on stack
-		OPersist *saveCurrentObject = _currentObj;
-		bool saveVBWritten = _VBWritten;
+	// Save class variables on stack
+	OPersist *saveCurrentObject = _currentObj;
+	bool saveVBWritten = _VBWritten;
 
-		beginObject(label);
+	beginObject(label);
 
-		// Write object
-		start(ob);
-   		ob->oWrite(this);
-        finish();
+	// Write object
+	start(ob);
+   	ob->oWrite(this);
+	finish();
 
-		endObject();
+	endObject();
 
-		// Restore class variables
-		_VBWritten = saveVBWritten;
-		_currentObj = saveCurrentObject;
+	// Restore class variables
+	_VBWritten = saveVBWritten;
+	_currentObj = saveCurrentObject;
 }
 
 void OOStreamXML::writeObjectId(OId id,const char *label)
@@ -568,7 +574,7 @@ void OOStreamXML::writeObjectId(OId id,const char *label)
 	if( id
 		&& (_style != cFlat)
 		&& ((label && 0 == strncmp( "o:",label,2)) || _style == cSAX)
-	    && !_writtenObjects.count(id))
+		&& !_writtenObjects.count(id))
 	{
 		oFAssert(_fromFile);
 		writeObjectInstance(_fromFile->getObject(id),label);
@@ -590,7 +596,7 @@ void OOStreamXML::writeObject(OPersist *ob, const char *label)
 	if( ob
 		&& (_style != cFlat)
 		&& ((label && 0 == strncmp( "o:",label,2)) || _style == cSAX)
-	    && !_writtenObjects.count(ob->oId()))
+		&& !_writtenObjects.count(ob->oId()))
 	{
 		writeObjectInstance(ob,label);
 	}
@@ -764,8 +770,7 @@ const O_WCHAR_T *OOStreamXML::pwriteWCString(const O_WCHAR_T * str)
 	UTF8 target[bufferSize];
 	UTF8 *ptargetStart = &target[0];
 	UTF8 *ptarget = ptargetStart;
-	ConversionResult res = ::ConvertUTF16toUTF8 (&str, str + wcslen(str),
-											 &ptarget, &target[bufferSize - 1], lenientConversion);
+	ConversionResult res = ::ConvertUTF16toUTF8 (&str, str + wcslen(str),&ptarget, &target[bufferSize - 1], lenientConversion);
 	OFILE_UNUSED(res);
 	while (ptargetStart < ptarget)
 	{
