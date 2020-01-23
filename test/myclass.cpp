@@ -87,6 +87,12 @@ void MyClass1::oDetach(OFile *file,bool deep)
 
 }
 
+void MyClass1::oWrite(OOStream* out)const
+{
+	inherited::oWrite(out);
+
+	_blob.oWrite(out, "_blob");
+}
 
 MyClass2::MyClass2(OIStream *in):OPersist(in)
 // Object file read constructor
@@ -95,14 +101,6 @@ MyClass2::MyClass2(OIStream *in):OPersist(in)
 	_fdata = in->readFloat("_fdata");
 	_unicodeStr1 = in->readWCString256("_unicodeStr1");
 	_unicodeStr2 = in->readWCString("_unicodeStr2");
-}
-
-void MyClass1::oWrite(OOStream *out)const
-{
-	inherited::oWrite(out);
-
-	_blob.oWrite(out,"_blob");
-
 }
 
 

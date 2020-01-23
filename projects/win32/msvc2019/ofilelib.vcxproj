@@ -120,12 +120,42 @@
     <ClCompile Include="..\..\..\ofile\oisxml.cpp" />
     <ClCompile Include="..\..\..\ofile\oiter.cpp" />
     <ClCompile Include="..\..\..\ofile\ometa.cpp" />
+    <ClCompile Include="..\..\..\ofile\oosjson.cpp" />
     <ClCompile Include="..\..\..\ofile\oosxml.cpp" />
     <ClCompile Include="..\..\..\ofile\opersist.cpp" />
     <ClCompile Include="..\..\..\ofile\ostrm.cpp" />
     <ClCompile Include="..\..\..\ofile\oufile.cpp" />
     <ClCompile Include="..\..\..\ofile\ox.cpp" />
     <ClCompile Include="..\..\..\ofile\oxmlreader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\ofile\ConvertUTF.h" />
+    <ClInclude Include="..\..\..\ofile\hgballoc.h" />
+    <ClInclude Include="..\..\..\ofile\lballoc.h" />
+    <ClInclude Include="..\..\..\ofile\oblob.h" />
+    <ClInclude Include="..\..\..\ofile\oblobp.h" />
+    <ClInclude Include="..\..\..\ofile\oblobt.h" />
+    <ClInclude Include="..\..\..\ofile\odefs.h" />
+    <ClInclude Include="..\..\..\ofile\odemand.h" />
+    <ClInclude Include="..\..\..\ofile\odset.h" />
+    <ClInclude Include="..\..\..\ofile\ofile.h" />
+    <ClInclude Include="..\..\..\ofile\oflist.h" />
+    <ClInclude Include="..\..\..\ofile\ofmemreg.h" />
+    <ClInclude Include="..\..\..\ofile\ofstring.h" />
+    <ClInclude Include="..\..\..\ofile\ofthread.h" />
+    <ClInclude Include="..\..\..\ofile\ohgblob.h" />
+    <ClInclude Include="..\..\..\ofile\oio.h" />
+    <ClInclude Include="..\..\..\ofile\oistrm.h" />
+    <ClInclude Include="..\..\..\ofile\oisxml.h" />
+    <ClInclude Include="..\..\..\ofile\oiter.h" />
+    <ClInclude Include="..\..\..\ofile\ometa.h" />
+    <ClInclude Include="..\..\..\ofile\oosxml.h" />
+    <ClInclude Include="..\..\..\ofile\opersist.h" />
+    <ClInclude Include="..\..\..\ofile\oset.h" />
+    <ClInclude Include="..\..\..\ofile\ostrm.h" />
+    <ClInclude Include="..\..\..\ofile\oufile.h" />
+    <ClInclude Include="..\..\..\ofile\ox.h" />
+    <ClInclude Include="..\..\..\ofile\oxmlreader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,6 +13,7 @@
 #include "ox.h"
 #include "oosxml.h"
 #include "oisxml.h"
+#include "oosjson.h"
 #include "mycolct.h"
 
 using namespace std;
@@ -172,6 +173,16 @@ OUFile *file = 0 ;
         print.setXMLStyle(OOStreamXML::cSAX);
         print.writeObjects("ofile");
     }
+   {
+	   // Open a file stream
+	   fstream out("ofile.json", ios::out);
+
+	   // Output the objects to the the file stream
+	   OOStreamJSON print(file, out, false);
+	   print.setXMLStyle(OOStreamJSON::cSAX);
+	   print.writeObjects("ofile");
+   }
+
 	{
 		// Create a new OFile.
 		 OUFile fileFromXML("ofileFromXML.db",OFILE_CREATE,"~ofileFromXML.db");

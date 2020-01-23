@@ -22,6 +22,7 @@
 #include "trans.h"
 #include "oosxml.h"
 #include "oisxml.h"
+#include "oosjson.h"
 
 #ifdef OFILE_STD_IN_NAMESPACE
 using std::cout;
@@ -37,7 +38,7 @@ int main(){
 
 		OUFile *f = new OUFile(0,OFILE_CREATE);
 
-		Person *husband = new Person("John","Doe","13 Farmers Lane","South Bronx","New York","USA",23456,70.0,1.80F,33,0,
+		Person *husband = new Person("John","Doe","13 Farmers Lane","\"\\/\b\f\n\r\t","New York","USA",23456,70.0,1.80F,33,0,
 			new WristWatch("Omega"));
 
 		// attach into file
@@ -124,6 +125,36 @@ int main(){
 			print.setXMLStyle(OOStreamXML::cFlat);
 			print.writeObjects("person1_flat");
 		} 
+
+		// Write in JSON it, using OOStreamJSON
+		{
+			// Open a file stream
+			fstream out("person1.json", ios::out);
+
+			// Open a print stream on the file stream
+			OOStreamJSON print(f, out);
+			print.writeObjects("person1");
+		}
+		// Write in JSON it, using OOStreamJSON
+		{
+			// Open a file stream
+			fstream out("person1_sax.json", ios::out);
+
+			// Open a print stream on the file stream
+			OOStreamJSON print(f, out);
+			print.setXMLStyle(OOStreamJSON::cSAX);
+			print.writeObjects("person1_sax");
+		}
+		{
+			// Open a file stream
+			fstream out("person1_flat.json", ios::out);
+
+			// Open a print stream on the file stream
+			OOStreamJSON print(f, out);
+			print.setXMLStyle(OOStreamJSON::cFlat);
+			print.writeObjects("person1_flat");
+		}
+
 		{
 			// Open a file stream
 			ifstream in("person1_sax.xml",ios::in|ios::binary);
