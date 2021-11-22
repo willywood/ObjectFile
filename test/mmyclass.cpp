@@ -13,9 +13,9 @@ MyClass##n::MyClass##n(OIStream *in):OPersist(in)  \
 MyClass##n::MyClass##n(int nc)						 \
 {											 \
 int i;										 \
-	_dum = new char[nc+1];					 \
+	_dum = new char[(size_t)nc+1];					 \
 											 \
-	for(i = 0; i < nc;i++)				 \
+	for(i = 0; i < nc; i++)				 \
 		_dum[i] = i % 10 + 48;				 \
 											 \
 	_dum[i] = '\0';							 \
@@ -86,7 +86,6 @@ DEFINE_CLASS(62)
 DEFINE_CLASS(63)
 DEFINE_CLASS(64)
 DEFINE_CLASS(65)
-/*
 DEFINE_CLASS(66)
 DEFINE_CLASS(67)
 DEFINE_CLASS(68)
@@ -103,4 +102,4 @@ DEFINE_CLASS(78)
 DEFINE_CLASS(79)
 DEFINE_CLASS(80)
 DEFINE_CLASS(81)
-DEFINE_CLASS(82) */
+DEFINE_CLASS(82) 

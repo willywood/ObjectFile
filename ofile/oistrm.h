@@ -79,7 +79,7 @@ public:
 		long read(void *buf,oulong size);
 		void *set(long);
 		long bufferSize(void)const{return sizeof(_bufp);}
-		long toRead(void)const{return _dataLength - (_start - _bufp);}
+		long toRead(void)const{return _dataLength - (long)(_start - _bufp);}
 
 	private:
 		char *_start;     // start of data
@@ -157,7 +157,7 @@ typedef deque<OSmartPtr> OSmartPtrs;
 
 class StrmInfo{
 public:
-	StrmInfo(){}
+	StrmInfo():_mark(0), _toRead(0) {}
 	~StrmInfo(){}
 	StrmInfo(OFilePos_t mark,long toRead):_mark(mark),_toRead(toRead){}
 	OSmartPtrs _sp;

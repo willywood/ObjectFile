@@ -40,7 +40,7 @@ SOFTWARE.
 #include <map>
 #endif
 #include <limits.h>
-#include < algorithm >
+#include <algorithm>
 #include "oflist.h"
 #include "ostrm.h"
 #include "oistrm.h"
@@ -72,7 +72,6 @@ friend class OIStreamFile;
 class OEnt{
 // Node of a class list.
 public:
-	OEnt(){}
 	~OEnt(){}
 	OEnt(OPersist *ob,OFilePos_t fMark):_ob(ob),_mark(fMark),_length(0){}
 	OEnt(OFilePos_t mark,long length):_ob(0),_mark(mark),_length(length){}
@@ -80,6 +79,9 @@ public:
 	OPersist *_ob;	 // Pointer to object. 0 if object is not in memory
 	OFilePos_t _mark;	 // Objects position in file. 0 if not yet written to file
 	oulong _length;	 // length of object in file.
+private:
+	OEnt(){}
+
 };
 public:
 // These would benefit from an allocator using a fixed size block heap.

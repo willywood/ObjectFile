@@ -52,7 +52,7 @@ public:
 	void freeSpace(OFilePos_t mark,oulong length);
     void write(OOStreamFile *out,bool wipeFreeSpace)const;
 	void read(OIStreamFile *in);
-	long size(void)const{return sizeof(long)+ _fList.size()*(sizeof(OFilePos_t)+ sizeof(long));}
+	long size(void)const{return (long)(sizeof(long)+ _fList.size()*(sizeof(OFilePos_t)+ sizeof(long)));}
 	void clear(void)
 //    	{_fList.clear();}
     	{_fList.erase(_fList.begin(),_fList.end());}

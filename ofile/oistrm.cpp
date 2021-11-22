@@ -213,7 +213,7 @@ char *OIStreamFile::readCString(const char * /*label */)
 //             maxlen - buffer length.
 // Return value: char buffer containing string. User must delete it.
 {
-	unsigned short len = readShort();
+	unsigned long len = readShort();
 	char *ret = new char[len + 1];
 	if(len)
 		readData((void *)ret,len);
@@ -227,11 +227,11 @@ O_WCHAR_T *OIStreamFile::readWCString(const char * /*label */)
 //             maxlen - buffer length.
 // Return value: char buffer containing string. User must delete it.
 {
-	unsigned short len = readShort();
+	long len = readShort();
 	O_WCHAR_T *ret = new O_WCHAR_T[len + 1];
 	if(len)
 	{
-		for(int i = 0;i < len;i++)
+		for(int i = 0; i < len; i++)
 			ret[i] = readWChar();
 	}
 	ret[len] = 0;
@@ -353,7 +353,7 @@ OFile *OIStreamFile::readBlobHeader(OFilePos_t *mark,oulong *blobLength,
 // ========================= P R I V A T E =======================================
 OIStreamFile::OIStreamFile(OFile *f,const char* fname,long operation):
 								_file(f),
-								_toRead(0),_ownsFile(true),
+								_toRead(0),_ownsFile(true),_mark(0),
 								_returnString(0),_wreturnString(0)
 // Constructor giving ownership of the file to this stream.
 {
@@ -375,7 +375,7 @@ OIStreamFile::OIStreamFile(OFile *f,IStorage *istorage,const char* fname,
 #endif
 
 OIStreamFile::OIStreamFile(OFile *f):_file(f),_fd(*f->fd()),
-									_toRead(0),_ownsFile(false),
+									_toRead(0),_ownsFile(false),_mark(0),
 									_returnString(0),_wreturnString(0)
 // Constructor without ownership of the file.
 {
@@ -442,7 +442,7 @@ void OIStreamFile::readData(void *buf,size_t size)
 {
 	long dread;
 	char* bufp = (char *)buf;
-	while((dread = _ostr.read(bufp,size)) != size)
+	while((dread = _ostr.read(bufp,(oulong)size)) != size)
 	{
 		// Check that we are not reading beyond the length of the object.
 		oFAssert(_toRead > 0);
@@ -632,7 +632,7 @@ void *OIStream::OIBuffer::set(long dataLength)
 
 long OIStream::OIBuffer::read(void *buf,oulong size)
 {
-	oulong remaining = _dataLength - (_start - _bufp);
+	oulong remaining = _dataLength - (long)(_start - _bufp);
 
 	oulong canRead = (size > remaining) ? remaining : size;
 

@@ -61,7 +61,7 @@ OBlobP::OBlobP(void):_blobLength(0),_file(0),_mark(0),
 // Default constructor
 {}
 
-OBlobP::OBlobP(char * blob, size_t size):_blobLength(size),_file(0),_mark(0),
+OBlobP::OBlobP(char * blob, size_t size):_blobLength((oulong)size),_file(0),_mark(0),
 										_fileLength(0),_blob(blob),
 										_dirty(true)
 // Existing data constructor. Takes over responsibility for managing the 
@@ -109,7 +109,7 @@ void OBlobP::read(OIStream *in)
 	_dirty = false;
 }
 
-OBlobP::OBlobP(size_t size):_blobLength(size),_file(0),_mark(0),
+OBlobP::OBlobP(size_t size):_blobLength((oulong)size),_file(0),_mark(0),
 							_fileLength(0),
 							_dirty(true)
 // Empty blob constructor
@@ -247,7 +247,7 @@ char * OBlobP::getBlob(void)const
 	if(!_blob && _file)
 	{
 		// Multiple processes on the same file should not enter at the same time.
-		OFGuard(_file->mutex());
+		OFGuard guard(_file->mutex());
 
 		if(_mark && _fileLength)
 		{
@@ -277,7 +277,7 @@ void OBlobP::setBlob(char * blob,size_t size)
 	// Subtract from global cache
 	_cache.subtract(_blobLength);
 
-	_blobLength = size;
+	_blobLength = (oulong)size;
 	_blob = blob;
 
 	// Add to global cache

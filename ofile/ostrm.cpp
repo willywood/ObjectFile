@@ -42,6 +42,8 @@ to define a class that writes to some other device.
 #include "ox.h"
 #include "oistrm.h"
 
+using namespace std;
+
 bool OOStream::VBWrite(void)
 // Check whether to write virtual base class.
 // Return value : true if it should be written; false if it has already been written.
@@ -162,7 +164,7 @@ void OOStreamFile::writeCString(const char * str,const char * /* label */)
 // Two bytes are used for size, giving a maximum length of 64k.
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	unsigned int len = strlen(str);
+	size_t len = strlen(str);
 	oFAssert(len < USHRT_MAX);
 	writeShort((unsigned short)len);
 	writeData(str,len);
@@ -173,7 +175,7 @@ void OOStreamFile::writeWCString(const O_WCHAR_T * str,const char * /* label */)
 // Two bytes are used for size, giving a maximum length of 64k.
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	unsigned int len = wcslen(str);
+	size_t len = wcslen(str);
 	oFAssert(len < USHRT_MAX);
 	writeShort((unsigned short)len);
 	// write as shorts to preserve byte ordering
@@ -188,7 +190,7 @@ void OOStreamFile::writeCString256(const char * str,const char * /* label */)
 // One byte is used for the length giving a maximum length of 255 characters.
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	unsigned int len = strlen(str);
+	size_t len = strlen(str);
 	oFAssert(len < 256);
 	writeChar((unsigned char)len);
 	writeData(str,len);
@@ -199,7 +201,7 @@ void OOStreamFile::writeWCString256(const O_WCHAR_T * str,const char * /* label 
 // One byte is used for the length giving a maximum length of 255 characters.
 // label - a pointer to a descriptive label for the attribute or 0.
 {
-	unsigned int len = wcslen(str);
+	size_t len = wcslen(str);
 	oFAssert(len < 256);
 	writeChar((unsigned char)len);
 	// write as shorts to preserve byte ordering
@@ -346,18 +348,18 @@ void OOStreamFile::writeData(const void *buf,size_t size)
 	}
 	
 	// Write large buffers without copying to an intermediate buffer
-	if(size > (size_t)_ostr.bufferSize())
+	if(size > _ostr.bufferSize())
 	{
 		// Flush buffer
-		long canWrite = _ostr.size();
+		oulong canWrite = _ostr.size();
 		writeDataAt(_mark,_ostr.set(),canWrite);
 		_mark += canWrite;
 		_toWrite -= canWrite;
 
 		// Write the data directly
-		writeDataAt(_mark,(void *)buf,size);
-		_mark += size;
-		_toWrite -= size;
+		writeDataAt(_mark,(void *)buf,(unsigned long)size);
+		_mark += (OFilePos_t)size;
+		_toWrite -= (oulong)size;
 
 	}
 	else
@@ -365,11 +367,11 @@ void OOStreamFile::writeData(const void *buf,size_t size)
 		// Write to the intermediate buffer
 		oulong dwritten;
 		char *bufp = (char *)buf;
-		while((dwritten = _ostr.write((const char *)bufp,size)) != size)
+		while((dwritten = _ostr.write((const char *)bufp, (oulong)size)) != size)
 		{
 			bufp += dwritten;
 			size -= dwritten;
-			long canWrite = min(_toWrite,_ostr.bufferSize()); 
+			oulong canWrite = min(_toWrite,_ostr.bufferSize()); 
 
 			writeDataAt(_mark,_ostr.set(),canWrite);
 			_mark += canWrite;
@@ -473,7 +475,7 @@ long OOStreamFile::finish(void)
 		writeDataAt(_mark,_ostr.set(),_toWrite);
 		_toWrite = 0;
 	}
-	return _count;
+	return (long)_count;
 }
 
 // OBuffer is used to buffer the output. It is probably unnecessary on most OS's as
@@ -503,7 +505,7 @@ void *OOStream::OBuffer::set(void)
 oulong OOStream::OBuffer::write(const char *buf,oulong size)
 // Return value: The number of  bytes actually written.
 {
-	oulong remaining = _bufSize - (_start -_bufp);
+	oulong remaining = _bufSize - (oulong)(_start -_bufp);
 
 	oulong canWrite = (size > remaining) ? remaining : size;
 

@@ -161,7 +161,7 @@ private:
 	bool isWhiteSpace(XMLCh c)const;
 
 	bool bufferIsEmpty()const{return &_charBuf[0] == _pCharBuf;}
-	int  bufferLength()const{return _pCharBuf - &_charBuf[0];}
+	int  bufferLength()const{return (int)(_pCharBuf - &_charBuf[0]);}
 	void pauseProgressive();
 	void parseSetup();
 	void copyBufTo(XMLCh *name)const;

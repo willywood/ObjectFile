@@ -50,6 +50,8 @@ SOFTWARE.
 #include "ofmemreg.h"
 #include <string.h>
 
+using namespace std;
+
 // Used to determine the word format of the current processor.
 unsigned long OFile::_sProcessorId = 0x01020408;
 
@@ -862,6 +864,7 @@ long OFile::purge(OClassId_t cId,bool deep,long toPurge)
 				 ++cListIt){
 			
 			   OPersist *ob = (*cListIt).second._ob;
+			   // We can purge only if the object is in memory and is purgable and not been changed.
 			   if(ob && ob->oPurgeable() && !ob->oDirty())
 			   {
 			   // Purge the object from memory.
@@ -1020,7 +1023,7 @@ void OFile::setObjectOId(OPersist *ob,OId id)
 void OFMemoryRegister::subtract(long nBytes)
 // Subtract from the memory register. This does a consistency check.
 {
-	unsigned long prev = _nBytes;
+	OFilePos_t prev = _nBytes;
 
 	_nBytes -= nBytes;
 

@@ -28,11 +28,15 @@ void OUFile::convert(void)
 // Convert objects from older versions.
 // Called by the constructor of OUFile.
 {
+	long us = userSourceVersion();
+	long uv = userVersion();
 
-	if(userSourceVersion() < userVersion())
-		throw OFileIOErr(_fileName,"The application file has a newer version than this"
-									" program.");
-
+	if (us < uv)
+	//if (userSourceVersion() < userVersion())
+	{
+		throw OFileIOErr(_fileName, "The application file has a newer version than this"
+			" program.");
+	}
 }
 
 int main(){

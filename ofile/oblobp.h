@@ -57,9 +57,6 @@ class OFile;
 class OBlobP{
 public:
 
-	// Default constructor
-	OBlobP(void);
-
 	OBlobP(OIStream *in);
 
 	OBlobP(char* blob,size_t size);
@@ -91,7 +88,7 @@ public:
 	bool purge(void);
 
 	// Total memory usage of all instances.
-	static unsigned long currentTotalMemoryUsage(void){return _cache.size();}
+	static OFilePos_t currentTotalMemoryUsage(void){return _cache.size();}
 
 	class BlobAllocator
 	{
@@ -103,6 +100,9 @@ public:
 protected:
 	oulong _blobLength;   // The current length in bytes of the blob.
 private:
+	// Default constructor made private so that we do not forget to initialize it.
+	OBlobP(void);
+
 	OFile *_file;         // The file to which the blob is attached.
 						  // _file == 0 id not currently attached to a file.
 	OFilePos_t _mark;        // File position of the blobs data.

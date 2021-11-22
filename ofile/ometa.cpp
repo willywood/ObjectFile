@@ -40,6 +40,8 @@ SOFTWARE.
 #include "ometa.h"
 #include "opersist.h"
 
+using namespace std;
+
 OClassId_t OMeta::_nmeta = 0;
 
 // Some compilers require the array size to be defined here as well
@@ -198,7 +200,7 @@ const char *OMeta::className(OPersist *ob)
 		for(classNameStart = 0;!isalpha(typeName[classNameStart]);classNameStart++);
 #else
 		// Find last blank separated string.
-		for(classNameStart = strlen(typeName);classNameStart > 0 && typeName[classNameStart-1] != ' ';--classNameStart);
+		for(classNameStart = (int)strlen(typeName); classNameStart > 0 && typeName[classNameStart-1] != ' ';--classNameStart);
 #endif
 		_className = &typeName[classNameStart];
 	}

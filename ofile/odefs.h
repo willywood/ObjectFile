@@ -95,7 +95,7 @@ typedef unsigned long OFilePos_t;
 
 // Maximum size of the file in bytes.
 #ifdef OFILE_64BIT_FILE_ADDRESSES
-inline OFilePos_t cOFileMaxLength(){return 100*1024*1024;} // 100 Giga
+inline OFilePos_t cOFileMaxLength(){return (OFilePos_t)8*1024*1024*1024*1024;} // 8 Terabyte
 #else
 inline OFilePos_t cOFileMaxLength(){return 2147483647UL;} //LONG_MAX
 // 4GB can be supported by WIN32. However be careful because
@@ -156,7 +156,13 @@ typedef unsigned long oulong;
 
 // For comparing pointers. This should be a type that is the size of
 // a memory address.
+#ifdef _WIN64
+typedef unsigned long long OAddress_type;
+#else
+// TBD Linux 64
 typedef unsigned long OAddress_type;
+#endif
+
 #if defined(_MSC_VER) && _MSC_VER < 1400
 //The MSVC compiler does not know wchar_t is a type. Including wchar.h
 // causes compile problems. So we just define it ourselves.

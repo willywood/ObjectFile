@@ -7,19 +7,28 @@
 //
 //  First write a file. Then read it.
 //
-//  This uses Borland threads, so is not portable.
+//  This uses Windows threads, so is not portable.
 //
 //
 
 #include "odefs.h"
+#include <iostream>
 #include <fstream>
 #include <stdio.h>
+#ifndef WIN32
+// Borland only
 #include <classlib\thread.h>
-
+#define THREAD_FUNC int Run()
+#endif
+#ifdef WIN32
+#include "tthread.h"
+#endif
 #include "ofile.h"
 #include "oiter.h"
 #include "ox.h"
 #include "mmyclass.h"
+
+using namespace std;
 
 
 static long threshold;
@@ -56,7 +65,7 @@ void my_new_handler()
 class MyReadThread : public TThread
 {
 public:
-	MyReadThread(OFile &file):f(file),count(0){}
+	MyReadThread(OFile &file):TThread("ofile_read", TRUE), f(file),count(0){}
 	long count;
 	static MyReadThread **threads;
 	static int nThreads;
@@ -76,7 +85,7 @@ static OFMutex sMutex;
 	{
 		long nObjects = f.objectCount();
 		// Iterate sequentially over all objects.
-		for(count = 1;count < nObjects; count++)
+		for(count = 0;count < nObjects; count++)
 		{
 			OPersist *p = f.getObject(rand() % nObjects);
 			if(p)
@@ -103,7 +112,7 @@ static OFMutex sMutex;
 class MyWriteThread : public TThread
 {
 public:
-	MyWriteThread(OFile &file):f(file),count(0){}
+	MyWriteThread(OFile &file):TThread("ofile_write",TRUE),f(file), count(0) {}
 	long count;
 	static MyWriteThread **threads;
 	static int nThreads;
@@ -120,7 +129,7 @@ int MyWriteThread::Run()
 static OFMutex sMutex;
 
 	// Attach
-	for(count = 1; count <= nObjects ; count++)
+	for(count = 0; count < nObjects ; count++)
 	{
 		MyClass10 *p = new MyClass10(avSize);
 		f.attach(p);
@@ -157,7 +166,8 @@ int main()
 	switch(menu)
 	{
 case 1:
-	cout << "Object threshold ?",cin >> threshold;
+	threshold = 1000;
+	cout << "Object threshold (1000)?",cin >> threshold;
 	OFile::setObjectThreshold(threshold);
 	break;
 
@@ -196,18 +206,29 @@ case 2:
 		{
 			MyWriteThread::threads[i]->Start();
 		}
-
-		// Wait for threads to finish.
-  		for(i = 0; i < MyWriteThread::nThreads; i++)
-		{
-			MyWriteThread::threads[i]->WaitForExit();
-		}
+		MyWriteThread::threads[0]->StartAllThreads();
 
 		// Delete the threads
-  		for(i = 0; i < MyWriteThread::nThreads; i++)
+		BOOL running;
+		do
+		{
+			running = FALSE;
+			for (i = 0; i < MyWriteThread::nThreads; i++)
+			{
+				if (MyWriteThread::threads[i] != 0 && MyWriteThread::threads[i]->isRunning())
+				{
+					running = TRUE;
+				}
+			}
+			Sleep(1000);
+		} while (running);
+
+		for (i = 0; i < MyWriteThread::nThreads; i++)
 		{
 			delete MyWriteThread::threads[i];
+			MyWriteThread::threads[i] = 0;
 		}
+
 
 	}catch(OFileErr x){
 		cout << '\n' << x.why() << '\n';
@@ -271,18 +292,28 @@ case 4:
 		{
 			MyReadThread::threads[i]->Start();
 		}
+		MyWriteThread::threads[0]->StartAllThreads();
 
-		// Wait for threads to finish.
-  		for(i = 0; i < MyReadThread::nThreads; i++)
-		{
-			MyReadThread::threads[i]->WaitForExit();
-		}
 		// Delete the threads
-  		for(i = 0; i < MyReadThread::nThreads; i++)
+		BOOL running;
+		do
+		{
+			running = FALSE;
+			for (i = 0; i < MyReadThread::nThreads; i++)
+			{
+				if (MyReadThread::threads[i] != 0 && MyReadThread::threads[i]->isRunning())
+				{
+					running = TRUE;
+				}
+			}
+			Sleep(1000);
+		} while (running);
+
+		for (i = 0; i < MyReadThread::nThreads; i++)
 		{
 			delete MyReadThread::threads[i];
+			MyReadThread::threads[i] = 0;
 		}
-
 
 	}catch(OFileErr x){
 		cout << '\n' << x.why() << '\n';

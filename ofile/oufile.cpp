@@ -77,6 +77,7 @@ SOFTWARE.
 #include "oiter.h"
 #include "ox.h"
 #include "opersist.h"
+#include <string.h>
 
 OUFile::WorkFile OUFile::_sWorkFile;
 
@@ -106,13 +107,13 @@ O_fd fd1,fd2;
 		throw;
 	}
 
-	const size_t cBUFS = 64000;
-	char *buf = new char[cBUFS];
-	size_t n;
+	const size_t cBUFFFER_SIZE = 64000;
+	char *buf = new char[cBUFFFER_SIZE];
+	OFilePos_t n;
 	OFilePos_t bytesToWrite = length;
 
 	// Copy a maximimum of length bytes from fd1 to fd2.
-	while((n = o_fread(buf,1,cBUFS,fd1)) > 0)
+	while((n = o_fread(buf,1, cBUFFFER_SIZE,fd1)) > 0)
 	{
 		unsigned long w = (unsigned long)min(bytesToWrite,n);
 		if(o_fwrite(buf,1,w,fd2) != w)

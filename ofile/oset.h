@@ -91,7 +91,7 @@ void OSetT<T>::oWrite(OOStream *out,const char *label)const
 	OOStream::ODefineObject def(out,label);
 
 	// number of elements in list
-	out->writeLong(this->size(),"size");
+	out->writeLong((O_LONG)this->size(),"size");
 
 	// for every element in the list
 	for(typename OSetT<T>::const_iterator it = this->begin();it != this->end(); ++it)

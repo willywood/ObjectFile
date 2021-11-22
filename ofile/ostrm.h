@@ -65,8 +65,8 @@ public:
 		void *str(void)const{return _bufp;}
 		void reset(void);
 		void *set(void);
-		oulong size(void)const{return _start - _bufp;}
-		long bufferSize(void)const{return _bufSize;}
+		oulong size(void)const{return (oulong)(_start - _bufp);}
+		oulong bufferSize(void)const{return _bufSize;}
 
 	private:
 		oulong _bufSize;   // buffer size
@@ -173,7 +173,7 @@ private:
 private:
 	O_fd _fd;
 	OFilePos_t _mark;
-	long _toWrite;
+	oulong _toWrite;
 	OFilePos_t _fileLength;
 	OFilePos_t _count;
 	OBuffer _ostr;

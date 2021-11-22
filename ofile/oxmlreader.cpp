@@ -168,7 +168,7 @@ bool OXMLReader::isWhiteSpace(XMLCh *str,int len)const
 
 void OXMLReader::sendCharacters()
 {
-	int len = _pCharBuf - &_charBuf[0];
+	int len = (int)(_pCharBuf - &_charBuf[0]);
 	if(!isWhiteSpace(_charBuf,len))
 		_fDocHandler->characters(_charBuf,len);
 

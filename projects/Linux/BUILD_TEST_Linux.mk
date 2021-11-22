@@ -26,7 +26,11 @@ $(TARGET_PLATFORM)_check: $(TARGET_PLATFORM)_check_$(PROJECT)
 
 #################################################################################################################
 # Target platform dependant definitions.
-GCC_BIN = 
+GCC_BIN = /usr/bin/
+
+# Debug configuration. Comment out for better performance.
+# Without this asserts are not compiled!
+DEBUG = 1
 
 # All os references relative to the root.
 ifeq ($(strip $(LINUX_ROOT)),)
@@ -55,9 +59,11 @@ $(TARGET_PLATFORM)_$(PROJECT) : SIZE    = $(GCC_BIN)size
 
 
 $(TARGET_PLATFORM)_$(PROJECT) : CC_SYMBOLS = 
-$(TARGET_PLATFORM)_$(PROJECT) : CC_FLAGS =  -c -g -m32 -fno-common -fmessage-length=0 -Wall -Wextra -ffunction-sections -fdata-sections -fomit-frame-pointer -MMD -MP
+# Add -m32 for 32 bit platforms.
+$(TARGET_PLATFORM)_$(PROJECT) : CC_FLAGS =  -c -g  -fno-common -fmessage-length=0 -Wall -Wextra -Wno-cast-function -ffunction-sections -fdata-sections -fomit-frame-pointer -MMD -MP
 $(TARGET_PLATFORM)_$(PROJECT) : CC_SYMBOLS += $(patsubst %,-D%, $(CC_TESTS))
-$(TARGET_PLATFORM)_$(PROJECT) : LD_FLAGS =  -m32 -Wl,-Map=$(basename $@).map
+# Add -m32 for 32 bit platforms.
+$(TARGET_PLATFORM)_$(PROJECT) : LD_FLAGS =  -Wl,-Map=$(basename $@).map
 #$(TARGET_PLATFORM)_$(PROJECT) : LD_SYS_LIBS = -lrt -lpthread  -lm -lc -lgcc 
 $(TARGET_PLATFORM)_$(PROJECT) : LD_SYS_LIBS =  -lm -lc -lgcc 
 

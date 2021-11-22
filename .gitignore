@@ -1,5 +1,6 @@
 .vs
 Debug
 *.db
-.vcxproj.user
+*.vcxproj.user
+
 

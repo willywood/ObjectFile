@@ -31,10 +31,10 @@ class OFMemoryRegister
 public:
 	void add(long nBytes);
 	void subtract(long nBytes);
-	unsigned long size(void)const{return _nBytes;}
+	OFilePos_t size(void)const{return _nBytes;}
 
 private:
-	unsigned long _nBytes;
+	OFilePos_t _nBytes;
 };
 
 #endif
